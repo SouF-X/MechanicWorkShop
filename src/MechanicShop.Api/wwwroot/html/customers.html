@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Customers - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/customers.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+    <template id="customer-actions-template">
+      <button class="btn btn-primary" id="new-customer">
+        <span data-new-customer-icon></span> New customer
+      </button>
+    </template>
+
+    <template id="customers-page-template">
+      <div class="cust-grid" data-customers-page>
+        <section class="panel">
+          <div class="customer-toolbar">
+            <div class="search">
+              <span data-search-icon></span
+              ><input
+                class="input"
+                id="cust-q"
+                placeholder="Search customers"
+              />
+            </div>
+          </div>
+          <ul class="cust-list divide-y" data-customer-list></ul>
+        </section>
+        <div class="customer-detail-stack" data-customer-detail></div>
+      </div>
+    </template>
+
+    <template id="customer-row-template">
+      <li>
+        <button class="cust-row" data-id="">
+          <div class="avatar" data-customer-initials></div>
+          <div class="customer-flex-fill">
+            <div class="cust-row__name truncate" data-customer-name></div>
+            <div class="cust-row__meta truncate" data-customer-meta></div>
+          </div>
+          <span data-chevron></span>
+        </button>
+      </li>
+    </template>
+
+    <template id="customer-empty-template">
+      <li class="empty customer-empty">No customers match.</li>
+    </template>
+
+    <template id="customer-detail-template">
+      <section class="panel">
+        <header class="panel-head">
+          <div>
+            <h2 class="panel-title" data-detail-name></h2>
+            <p class="panel-sub" data-detail-since></p>
+          </div>
+          <div class="customer-action-row">
+            <button
+              class="btn btn-outline btn-sm customer-outline-action"
+              data-edit
+            >
+              <span data-edit-icon></span> Edit
+            </button>
+            <button
+              class="btn btn-outline btn-sm customer-delete-action"
+              data-del-cust
+            >
+              <span data-trash-icon></span> Delete
+            </button>
+          </div>
+        </header>
+        <div class="panel-body customer-info-grid">
+          <div class="info-field">
+            <div class="label">Phone</div>
+            <div class="val">
+              <span data-phone-icon></span> <span data-detail-phone></span>
+            </div>
+          </div>
+          <div class="info-field">
+            <div class="label">Email</div>
+            <div class="val">
+              <span data-mail-icon></span> <span data-detail-email></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <header class="panel-head">
+          <div>
+            <h2 class="panel-title">Vehicles</h2>
+            <p class="panel-sub" data-vehicle-count></p>
+          </div>
+          <button
+            class="btn btn-outline btn-sm customer-outline-action"
+            id="add-veh"
+          >
+            <span data-add-icon></span> Add vehicle
+          </button>
+        </header>
+        <div class="divide-y" data-vehicle-list></div>
+      </section>
+    </template>
+
+    <template id="vehicle-row-template">
+      <div class="veh-row row-hover">
+        <div class="veh-icon" data-vehicle-icon></div>
+        <div class="customer-flex-fill">
+          <div class="veh-title" data-vehicle-title></div>
+          <div class="veh-meta" data-vehicle-meta></div>
+        </div>
+        <div class="veh-actions">
+          <button
+            class="icon-btn vehicle-edit-action"
+            data-edit-veh
+            aria-label="Edit"
+          ></button>
+          <button
+            class="icon-btn vehicle-delete-action"
+            data-del-veh
+            aria-label="Delete"
+          ></button>
+        </div>
+      </div>
+    </template>
+
+    <template id="vehicle-empty-template">
+      <div class="empty customer-empty">No vehicles on file.</div>
+    </template>
+
+    <template id="customer-form-template">
+      <form id="cust-form" class="form-grid">
+        <aside class="preview-pane">
+          <div class="avatar lg" id="prev-init"></div>
+          <div class="modal-preview-text">
+            <div class="font-display modal-preview-name" id="prev-name"></div>
+            <div class="modal-preview-kicker">Profile preview</div>
+          </div>
+        </aside>
+        <div class="modal-form-stack">
+          <div class="field">
+            <label class="field-label">Full name</label>
+            <div class="field-control input-with-icon">
+              <span data-name-icon></span
+              ><input
+                class="input"
+                id="f-name"
+                placeholder="Yassine El Amrani"
+              />
+            </div>
+            <div class="field-error hidden" data-err="name"></div>
+          </div>
+          <div class="form-pair-2">
+            <div class="field">
+              <label class="field-label">Phone number</label>
+              <div class="field-control input-with-icon">
+                <span data-phone-input-icon></span
+                ><input
+                  class="input"
+                  id="f-phone"
+                  placeholder="+212612345678"
+                />
+              </div>
+              <div class="field-error hidden" data-err="phone"></div>
+            </div>
+            <div class="field">
+              <label class="field-label">Email</label>
+              <div class="field-control input-with-icon">
+                <span data-email-input-icon></span
+                ><input
+                  class="input"
+                  id="f-email"
+                  type="email"
+                  placeholder="yassine@example.com"
+                />
+              </div>
+              <div class="field-error hidden" data-err="email"></div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </template>
+
+    <template id="create-vehicle-fields-template">
+      <div class="field"><label class="field-label">First vehicle</label></div>
+      <div class="form-pair-2">
+        <div class="field">
+          <label class="field-label">Make</label>
+          <div class="field-control"><input class="input" id="cv-make" placeholder="Toyota" /></div>
+          <div class="field-error hidden" data-err="make"></div>
+        </div>
+        <div class="field">
+          <label class="field-label">Model</label>
+          <div class="field-control"><input class="input" id="cv-model" placeholder="Corolla" /></div>
+          <div class="field-error hidden" data-err="model"></div>
+        </div>
+      </div>
+      <div class="form-pair-2">
+        <div class="field">
+          <label class="field-label">Year</label>
+          <div class="field-control"><input class="input" id="cv-year" type="number" placeholder="2019" /></div>
+          <div class="field-error hidden" data-err="year"></div>
+        </div>
+        <div class="field">
+          <label class="field-label">License plate</label>
+          <div class="field-control"><input class="input font-mono license-input" id="cv-plate" placeholder="12345-A-6" /></div>
+          <div class="field-error hidden" data-err="plate"></div>
+        </div>
+      </div>
+    </template>
+
+    <template id="create-vehicle-preview-template">
+      <div class="create-preview-dashes"></div>
+      <div class="create-vehicle-preview">
+        <div class="vehicle-preview-icon" data-create-vehicle-icon></div>
+        <div class="modal-preview-text">
+          <div class="font-display modal-preview-name" data-create-vehicle-title>New vehicle</div>
+          <div class="modal-preview-plate"><span class="plate-pill" data-create-vehicle-plate>— — —</span></div>
+        </div>
+      </div>
+    </template>
+
+    <template id="vehicle-form-template">
+      <form id="veh-form" class="form-grid">
+        <aside class="preview-pane">
+          <div class="vehicle-preview-icon" data-vehicle-preview-icon></div>
+          <div class="modal-preview-text">
+            <div class="font-display modal-preview-name" id="prev-title"></div>
+            <div class="modal-preview-plate">
+              <span class="plate-pill" id="prev-plate"></span>
+            </div>
+          </div>
+        </aside>
+        <div class="modal-form-stack">
+          <div class="form-pair-2">
+            <div class="field">
+              <label class="field-label">Make</label>
+              <div class="field-control">
+                <input class="input" id="v-make" placeholder="Toyota" />
+              </div>
+              <div class="field-error hidden" data-err="make"></div>
+            </div>
+            <div class="field">
+              <label class="field-label">Model</label>
+              <div class="field-control">
+                <input class="input" id="v-model" placeholder="Corolla" />
+              </div>
+              <div class="field-error hidden" data-err="model"></div>
+            </div>
+          </div>
+          <div class="form-pair-2">
+            <div class="field">
+              <label class="field-label">Year</label>
+              <div class="field-control">
+                <input
+                  class="input"
+                  id="v-year"
+                  type="number"
+                  placeholder="2019"
+                />
+              </div>
+              <div class="field-error hidden" data-err="year"></div>
+            </div>
+            <div class="field">
+              <label class="field-label">License plate</label>
+              <div class="field-control">
+                <input
+                  class="input font-mono license-input"
+                  id="v-plate"
+                  placeholder="12345-A-6"
+                />
+              </div>
+              <div class="field-error hidden" data-err="plate"></div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </template>
+
+    <template id="modal-footer-template">
+      <button class="btn btn-ghost" data-cancel>Cancel</button
+      ><button class="btn btn-primary" data-save></button>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/customers.api.js"></script>
+    <script src="../js/customers/dom.js"></script>
+    <script src="../js/customers/mappers.js"></script>
+    <script src="../js/customers/validators.js"></script>
+    <script src="../js/customers/render.js"></script>
+    <script src="../js/customers/forms.js"></script>
+    <script src="../js/customers/page.js"></script>
+  </body>
+</html>

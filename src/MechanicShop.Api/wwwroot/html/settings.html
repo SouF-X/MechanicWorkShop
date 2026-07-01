@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Settings - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+    <link rel="stylesheet" href="../css/settings.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+
+    <template id="settings-page-template">
+      <form id="set-form" class="settings-page">
+        <section class="panel settings-panel">
+          <header class="panel-head">
+            <div class="settings-head">
+              <div class="settings-icon" data-clock-icon></div>
+              <div>
+                <h2 class="panel-title">Operating hours</h2>
+                <p class="panel-sub">Retrieved from the current settings endpoint</p>
+              </div>
+            </div>
+          </header>
+          <div class="settings-body">
+            <div class="settings-fields-2">
+              <div>
+                <label class="set-label">Opening time</label>
+                <input class="input" id="s-opening" />
+              </div>
+              <div>
+                <label class="set-label">Closing time</label>
+                <input class="input" id="s-closing" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="settings-actions"><button type="submit" class="btn btn-primary"><span data-save-icon></span> Save changes</button></div>
+      </form>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/settings.api.js"></script>
+    <script src="../js/settings/dom.js"></script>
+    <script src="../js/settings/page.js"></script>
+  </body>
+</html>

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/dashboard.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+
+    <template id="dashboard-actions-template">
+      <a class="btn btn-outline" href="schedule.html"><span data-ui-icon="calendar" data-size="14"></span> Open schedule</a>
+      <a class="btn btn-primary dashboard-new-workorder" href="work-orders.html"><span data-ui-icon="plus" data-size="14"></span> New work order</a>
+    </template>
+
+    <template id="dashboard-page-template">
+      <div class="stats" data-stats></div>
+
+      <div class="dash-grid">
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <h2 class="panel-title">Needs attention today</h2>
+              <p class="panel-sub" data-attention-count></p>
+            </div>
+            <span class="muted moved-inline-007">Auto-refreshed</span>
+          </header>
+          <ul class="divide-y" data-attention-list></ul>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <h2 class="panel-title">Active work orders</h2>
+              <p class="panel-sub">Today's floor</p>
+            </div>
+            <a href="work-orders.html" class="dashboard-view-all">View all</a>
+          </header>
+          <div class="moved-inline-008">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>WO</th>
+                  <th>Customer &middot; Vehicle</th>
+                  <th>Tech</th>
+                  <th>State</th>
+                  <th>Next action</th>
+                </tr>
+              </thead>
+              <tbody data-active-workorders></tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+
+      <div class="dash-grid--right">
+        <section class="panel bay-capacity-panel">
+          <header class="panel-head">
+            <div>
+              <h2 class="panel-title">Bay capacity today</h2>
+              <p class="panel-sub">Bookings per bay</p>
+            </div>
+          </header>
+          <div class="panel-body" data-capacity-list></div>
+        </section>
+
+        <section class="panel">
+          <header class="panel-head">
+            <div>
+              <h2 class="panel-title">Recent activity</h2>
+              <p class="panel-sub">Last 24 hours</p>
+            </div>
+          </header>
+          <ul class="divide-y" data-activity-list></ul>
+        </section>
+      </div>
+    </template>
+
+    <template id="dashboard-stat-template">
+      <div class="stat">
+        <div class="stat__head">
+          <span class="stat__label" data-stat-label></span>
+          <span class="stat__icon" data-stat-icon></span>
+        </div>
+        <div class="stat__val" data-stat-value></div>
+      </div>
+    </template>
+
+    <template id="dashboard-attention-template">
+      <li class="attn-item row-hover">
+        <span class="attn-dot" data-attention-tone></span>
+        <div class="attn-text">
+          <div class="attn-head">
+            <span class="attn-no" data-attention-number></span>
+            <span class="attn-kind" data-attention-kind></span>
+          </div>
+          <div class="attn-sub" data-attention-sub></div>
+        </div>
+        <a class="attn-link" data-attention-link></a>
+      </li>
+    </template>
+
+    <template id="dashboard-workorder-template">
+      <tr>
+        <td>
+          <a class="moved-inline-009" data-workorder-link></a>
+          <div class="sub" data-workorder-bay></div>
+        </td>
+        <td>
+          <div data-workorder-customer></div>
+          <div class="sub" data-workorder-vehicle></div>
+        </td>
+        <td>
+          <div data-workorder-tech></div>
+          <div class="sub" data-workorder-role></div>
+        </td>
+        <td data-workorder-state></td>
+        <td class="muted" data-workorder-next></td>
+      </tr>
+    </template>
+
+    <template id="dashboard-capacity-template">
+      <div class="cap-row">
+        <div class="cap-head">
+          <span class="cap-name" data-capacity-bay></span>
+          <span class="cap-meta" data-capacity-meta></span>
+        </div>
+        <div class="cap-bar"><div class="cap-fill" data-capacity-fill></div></div>
+      </div>
+    </template>
+
+    <template id="dashboard-activity-template">
+      <li class="act-item">
+        <div class="act-icon" data-activity-icon></div>
+        <div class="act-text">
+          <div class="act-msg" data-activity-message></div>
+          <div class="act-time" data-activity-time></div>
+        </div>
+      </li>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/dashboard.api.js"></script>
+    <script src="../js/Api/workorders.api.js"></script>
+    <script src="../js/Api/invoices.api.js"></script>
+    <script src="../js/dashboard/dom.js"></script>
+    <script src="../js/dashboard/data.js"></script>
+    <script src="../js/dashboard/render.js"></script>
+    <script src="../js/dashboard/page.js"></script>
+  </body>
+</html>

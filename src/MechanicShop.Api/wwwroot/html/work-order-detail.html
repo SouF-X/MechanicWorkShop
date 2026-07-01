@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Work Order Detail - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+    <link rel="stylesheet" href="../css/work-order-detail.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+
+    <template id="work-order-detail-actions-template">
+      <a class="btn btn-outline" href="work-orders.html"><span data-ui-icon="arrowLeft" data-size="14"></span> Back</a><button class="btn btn-primary hidden" id="issue-inv"><span data-ui-icon="fileText" data-size="14"></span> Issue invoice</button>
+    </template>
+
+    <template id="work-order-not-found-template"><section class="panel"><div class="moved-inline-065">Work order not found. <a class="moved-inline-066" href="work-orders.html">Back to list</a></div></section></template>
+
+    <template id="work-order-detail-page-template">
+      <div class="wod-grid">
+        <div class="moved-inline-002">
+          <section class="panel detail-card"><header class="panel-head"><div><h2 class="panel-title">Customer &amp; vehicle</h2></div></header><div class="detail-pair-grid"><div class="info-card"><div class="info-card-top"><div class="info-icon" data-customer-icon></div><div><div class="label">Customer</div><div class="val" data-customer-name></div></div></div><div class="info-line"><span data-phone-icon></span><span data-customer-phone></span></div><div class="info-line"><span data-mail-icon></span><span data-customer-email></span></div></div><div class="info-card"><div class="info-card-top"><div class="info-icon" data-car-icon></div><div><div class="label">Vehicle</div><div class="val" data-vehicle-name></div></div></div><div class="info-line"><span data-plate-icon></span><span data-vehicle-id></span></div><div class="info-line"><span data-mileage-icon></span><span data-vehicle-mileage></span></div></div></div></section>
+          <section class="panel"><header class="panel-head"><div><h2 class="panel-title">Repair tasks</h2><p class="panel-sub" data-task-summary></p></div><button class="modify-btn" data-modify-tasks><span data-modify-icon></span> Modify</button></header><ul class="divide-y" data-task-list></ul><div class="totals-row"><div><span class="lbl">Labor </span><span class="v tabular" data-labor-total></span></div><div><span class="lbl">Parts </span><span class="v tabular" data-parts-total></span></div><div class="moved-inline-067">Total <span class="tabular" data-grand-total></span></div></div></section>
+          <div data-invoice-section></div>
+        </div>
+        <div class="moved-inline-002">
+          <section class="panel"><header class="panel-head"><div><h2 class="panel-title">Status</h2></div></header><div class="panel-body moved-inline-068"><div class="moved-inline-069"><span class="muted moved-inline-007">Current state</span><span data-current-state></span></div><div class="muted moved-inline-007">Next action</div><div class="moved-inline-070" data-next-action></div><div class="action-grid-2"><button class="btn moved-inline-071" id="start">Start</button><button class="btn btn-success" id="complete">Complete</button></div><button class="btn btn-outline" id="cancel-wo">Cancel work order</button></div></section>
+          <section class="panel"><header class="panel-head"><div><h2 class="panel-title">Assignment</h2></div></header><div class="panel-body moved-inline-068"><div><div class="muted moved-inline-007">Technician</div><div class="moved-inline-072"><div class="avatar round sm" data-tech-initials></div><div><div class="moved-inline-073" data-tech-name></div><div class="moved-inline-016" data-tech-role></div></div></div></div></div></section>
+          <section class="panel"><header class="panel-head"><div><h2 class="panel-title">Schedule</h2></div></header><div class="panel-body"><div class="moved-inline-074" data-scheduled-at></div><div class="muted moved-inline-075" data-bay></div></div></section>
+          <div class="banner-warn"><span data-shield-icon></span><p><span class="moved-inline-076">Manager-only</span> actions are highlighted. Technicians see read-only views for those fields.</p></div>
+        </div>
+      </div>
+    </template>
+
+    <template id="work-order-task-row-template"><li class="task-row row-hover"><div class="task-icon" data-task-icon></div><div class="moved-inline-003"><div class="moved-inline-077"><span class="title truncate" data-task-title></span><span class="price tabular" data-task-price></span></div><div class="meta" data-task-meta></div></div></li></template>
+
+    <template id="work-order-invoice-template"><section class="panel"><header class="panel-head"><div><h2 class="panel-title" data-invoice-title></h2></div><span data-invoice-status></span></header><div class="moved-inline-078"><div class="moved-inline-079" data-invoice-issued></div><div class="moved-inline-024"><button class="btn btn-outline">Download PDF</button><span data-mark-paid-action></span></div></div><div class="moved-inline-080"><span class="muted">Total </span><span class="tabular moved-inline-067" data-invoice-total></span></div></section></template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/workorders.api.js"></script>
+    <script src="../js/Api/invoices.api.js"></script>
+    <script src="../js/Api/customers.api.js"></script>
+    <script src="../js/Api/repair-tasks.api.js"></script>
+    <script src="../js/work-order-detail/dom.js"></script>
+    <script src="../js/work-order-detail/data.js"></script>
+    <script src="../js/work-order-detail/render.js"></script>
+    <script src="../js/work-order-detail/page.js"></script>
+  </body>
+</html>

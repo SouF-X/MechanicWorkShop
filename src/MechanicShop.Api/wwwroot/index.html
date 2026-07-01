@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MechanicOS — Sign in</title>
+    <meta
+      name="description"
+      content="Workshop operations command center for North Bay Garage."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap"
+    />
+    <link rel="stylesheet" href="css/shared.css" />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <div class="login">
+      <div class="login__bg-ember"></div>
+      <div class="login__bg-grid"></div>
+
+      <aside class="login__brand-pane">
+        <div class="login__brand">
+          <div class="login__brand-logo" data-icon="wrench"></div>
+          <div>
+            <div class="brand-name">MECHANIC<span class="slash">/</span>OS</div>
+            <div class="brand-sub">North Bay Garage</div>
+          </div>
+        </div>
+
+        <div class="login__pitch">
+          <div class="page-eyebrow">
+            <span class="bar"></span><span class="label">Operations OS</span>
+          </div>
+          <h2 class="login__headline">
+            Run the shop floor<br />
+            <span class="text-gradient">without losing</span><br />
+            a single job.
+          </h2>
+          <p class="login__sub">
+            Work orders, schedule pressure, technicians, invoices — one
+            operational view for the people who keep cars moving.
+          </p>
+
+          <div class="login__stats">
+            <div class="login__stat">
+              <div class="k">Bays</div>
+              <div class="v">04</div>
+              <div class="s">active</div>
+            </div>
+            <div class="login__stat">
+              <div class="k">Techs</div>
+              <div class="v">06</div>
+              <div class="s">on staff</div>
+            </div>
+            <div class="login__stat">
+              <div class="k">Jobs</div>
+              <div class="v">12</div>
+              <div class="s">today</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="login__footer">
+          © <span id="year"></span> · Internal tool
+        </div>
+      </aside>
+
+      <section class="login__form-pane">
+        <div class="login__form-wrap">
+          <div class="page-eyebrow">
+            <span class="bar" style="width: 24px"></span
+            ><span class="label">Welcome back</span>
+          </div>
+          <h1 class="login__title">Sign in</h1>
+          <p class="login__hint">
+            Demo manager: <code class="login__code">manager@localhost</code> / <code class="login__code">manager123</code>
+          </p>
+
+          <form id="login-form" class="login__form">
+            <div class="field">
+              <label class="field-label">Email</label>
+              <input
+                id="email"
+                class="input login__input"
+                type="email"
+                autocomplete="username"
+              />
+            </div>
+            <div class="field">
+              <div class="login__pwd-row">
+                <label class="field-label">Password</label>
+                <a class="login__forgot" href="#">Forgot?</a>
+              </div>
+              <input
+                id="password"
+                class="input login__input"
+                type="password"
+                autocomplete="current-password"
+              />
+            </div>
+            <label class="login__remember">
+              <input id="remember" type="checkbox" checked />
+              Remember me on this device
+            </label>
+            <div id="login-error" class="login__error hidden"></div>
+            <button type="submit" class="login__submit" id="login-submit">
+              <span id="login-label">Enter command center</span>
+              <span data-icon="arrowRt" data-size="14"></span>
+            </button>
+          </form>
+
+          <p class="login__policy">Internal usage policy applies</p>
+        </div>
+      </section>
+    </div>
+
+    <script src="js/shared/templates.js"></script>
+    <script src="js/shared/icons.js"></script>
+    <script src="js/shared/session.js"></script>
+    <script src="js/shared/components.js"></script>
+    <script src="js/shared/utils.js"></script>
+    <script src="js/shared/shell.js"></script>
+    <script src="js/Api/core.js"></script>
+    <script src="js/Api/auth.api.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>

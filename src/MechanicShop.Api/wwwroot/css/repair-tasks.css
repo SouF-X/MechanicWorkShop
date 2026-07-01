@@ -1,0 +1,158 @@
+[data-repair-tasks-page] .search .input:hover,
+[data-repair-tasks-page] .search .input:focus {
+  border-color: rgba(245,158,11,.75);
+  background: rgba(27,24,22,.55);
+  box-shadow: none;
+}
+[data-repair-tasks-page] .search:has(.input:hover) svg,
+[data-repair-tasks-page] .search:has(.input:focus) svg { color: var(--muted-foreground); }
+[data-repair-tasks-page] [data-task-name]:hover { color: var(--foreground) !important; }
+
+[data-repair-tasks-page] .data-table { min-width: 980px; table-layout: fixed; }
+[data-repair-tasks-page] .data-table th:first-child,
+[data-repair-tasks-page] .data-table td:first-child { width: 260px; min-width: 260px; }
+[data-repair-tasks-page] .data-table th:nth-child(2),
+[data-repair-tasks-page] .data-table td:nth-child(2) { width: 125px; }
+[data-repair-tasks-page] .data-table th:nth-child(3),
+[data-repair-tasks-page] .data-table td:nth-child(3) { width: 110px; }
+[data-repair-tasks-page] .data-table th:nth-child(5),
+[data-repair-tasks-page] .data-table td:nth-child(5) { width: 120px; }
+[data-repair-tasks-page] .data-table th:nth-child(6),
+[data-repair-tasks-page] .data-table td:nth-child(6) { width: 110px; }
+.task-icon { height: 28px; width: 28px; flex: 0 0 28px; border-radius: var(--radius-sm); background: rgba(245,158,11,.1); color: var(--primary); display: grid; place-items: center; box-shadow: 0 0 0 1px rgba(245,158,11,.2); }
+[data-repair-tasks-page] [data-task-name] { min-width: 0; line-height: 1.15; overflow-wrap: normal; word-break: normal; white-space: nowrap; }
+.repair-edit-action:hover { background: var(--raised); color: var(--primary); }
+.repair-delete-action:hover { background: rgba(248,113,113,.1); color: var(--destructive); }
+.add-part-btn { height: 36px; padding: 0 12px; display: inline-flex; align-items: center; gap: 6px; border-radius: 6px; border: 1px solid rgba(245,158,11,.4); background: rgba(245,158,11,.1); color: var(--primary); font-size: 12px; font-weight: 600; transition: all .15s; }
+.add-part-btn:hover { background: rgba(245,158,11,.15); border-color: rgba(245,158,11,.6); box-shadow: none; }
+.empty-parts { width: 100%; border-radius: 14px; border: 1px dashed var(--border); background: rgba(27,24,22,.3); padding: 32px 16px; text-align: center; transition: all .15s; }
+.empty-parts:hover { border-color: rgba(245,158,11,.4); background: rgba(27,24,22,.6); }
+.empty-parts .ring { margin: 0 auto; height: 40px; width: 40px; border-radius: 999px; background: rgba(245,158,11,.1); color: var(--primary); display: grid; place-items: center; box-shadow: inset 0 0 0 1px rgba(245,158,11,.2); transition: transform .15s; }
+.empty-parts:hover .ring { transform: scale(1.1); }
+.parts-row { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; border-radius: 10px; border: 1px solid var(--border); background: rgba(27,24,22,.7); padding: 8px; transition: border-color .15s; }
+.parts-row:hover { border-color: rgba(245,158,11,.3); }
+.parts-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.parts-field-name { grid-column: span 6; }
+.parts-field-qty { grid-column: span 2; }
+.parts-field-price { grid-column: span 3; }
+.parts-label { font-size: 10px; line-height: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted-foreground); }
+.parts-row .input { height: 36px; }
+.parts-del { grid-column: span 1; align-self: end; display: grid; place-items: center; border-radius: 6px; border: 1px solid var(--border); background: rgba(27,24,22,.6); color: var(--muted-foreground); transition: all .15s; }
+.parts-del:hover { color: var(--destructive); background: rgba(248,113,113,.1); border-color: rgba(248,113,113,.4); }
+
+.modal-card:has(#t-name) .modal-head { padding: 16px 24px; }
+.modal-card:has(#t-name) .modal-sub { margin-top: 2px; line-height: 16px; }
+.modal-card:has(#t-name) .modal-body { padding: 24px; }
+.modal-card:has(#t-name) .modal-foot { padding: 14px 24px; gap: 8px; }
+.modal-card:has(#t-name) .modal-foot [data-cancel] {
+  border: 1px solid transparent;
+  background: rgba(22,19,17,.45);
+  color: var(--foreground);
+  transition: background .15s, border-color .15s, color .15s;
+}
+.modal-card:has(#t-name) .modal-foot [data-cancel]:hover {
+  border-color: rgba(245,158,11,.35);
+  background: rgba(245,158,11,.08);
+  color: var(--primary);
+}
+.modal-card:has(#t-name) .form-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.modal-card:has(#t-name) .form-pair-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 640px) {
+  .modal-card:has(#t-name) .form-pair-2 { grid-template-columns: 1fr 1fr; }
+}
+.modal-card:has(#t-name) .field { margin-bottom: 0; }
+.modal-card:has(#t-name) .field-label {
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: .14em;
+  color: rgba(244,239,232,.75);
+}
+.modal-card:has(#t-name) .field-control { margin-top: 6px; }
+.modal-card:has(#t-name) .input {
+  height: 40px;
+  font-size: 14px;
+  line-height: 20px;
+  padding-top: 0;
+  padding-bottom: 0;
+  background: var(--raised);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.3);
+}
+.modal-card:has(#t-name) .input:hover {
+  border-color: rgba(245,158,11,.6);
+  background: var(--card);
+}
+.modal-card:has(#t-name) .input:focus {
+  border-color: rgba(245,158,11,.7);
+  background: var(--card);
+  box-shadow: none;
+}
+.modal-card:has(#t-name) .field-error {
+  margin-top: 4px;
+  font-size: 11px;
+  line-height: 16px;
+}
+.modal-card:has(#t-name) #parts-count {
+  margin-top: 2px;
+  font-size: 11px;
+  line-height: 16px;
+}
+.modal-card:has(#t-name) .moved-inline-090 { margin-bottom: 12px !important; }
+.modal-card:has(#t-name) .moved-inline-092 {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+.modal-card:has(#t-name) .empty-parts {
+  border-radius: var(--radius-xl);
+  padding: 32px 16px;
+}
+.modal-card:has(#t-name) .empty-parts .moved-inline-093 {
+  margin-top: 12px !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
+}
+.modal-card:has(#t-name) .parts-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 8px;
+  padding: 8px;
+  border-radius: var(--radius-lg);
+  background: rgba(27,24,22,.7);
+  border: 1px solid var(--border);
+  transition: border-color .15s;
+}
+.modal-card:has(#t-name) .parts-row:hover { border-color: rgba(245,158,11,.3); }
+.modal-card:has(#t-name) .parts-field { min-width: 0; }
+.modal-card:has(#t-name) .parts-field-name { grid-column: span 6; }
+.modal-card:has(#t-name) .parts-field-qty { grid-column: span 2; }
+.modal-card:has(#t-name) .parts-field-price { grid-column: span 3; }
+.modal-card:has(#t-name) .parts-label {
+  font-size: 10px;
+  line-height: 12px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
+}
+.modal-card:has(#t-name) .parts-row .input {
+  height: 40px;
+  min-width: 0;
+  box-shadow: none;
+}
+.modal-card:has(#t-name) .parts-row .input:hover,
+.modal-card:has(#t-name) .parts-row .input:focus {
+  box-shadow: none;
+}
+.modal-card:has(#t-name) .parts-del {
+  grid-column: span 1;
+  align-self: end;
+  height: 40px;
+  min-width: 0;
+}

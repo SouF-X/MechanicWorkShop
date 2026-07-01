@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Repair Tasks - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+    <link rel="stylesheet" href="../css/repair-tasks.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+    <template id="repair-tasks-page-template">
+      <section class="panel" data-repair-tasks-page>
+        <header class="panel-head"><div><h2 class="panel-title">Catalog</h2><p class="panel-sub" data-catalog-count></p></div></header>
+        <div class="moved-inline-001">
+          <div class="search moved-inline-042"><span data-search-icon></span><input class="input" id="rt-q" placeholder="Search labor tasks or parts..." /></div>
+        </div>
+        <div class="moved-inline-008">
+          <table class="data-table">
+            <thead><tr><th>Task</th><th>Duration</th><th>Labor</th><th>Parts</th><th>Total est.</th><th class="moved-inline-043">Actions</th></tr></thead>
+            <tbody data-repair-task-body></tbody>
+          </table>
+        </div>
+      </section>
+    </template>
+
+    <template id="repair-task-row-template">
+      <tr>
+        <td><div class="moved-inline-012"><div class="task-icon" data-task-icon></div><span class="moved-inline-044" data-task-name></span></div></td>
+        <td class="muted"><span class="moved-inline-028"><span data-clock-icon></span> <span data-task-duration></span></span></td>
+        <td class="tabular" data-task-labor></td>
+        <td class="muted truncate moved-inline-045" data-task-parts></td>
+        <td class="tabular" data-task-total></td>
+        <td class="moved-inline-043"><div class="moved-inline-046"><button class="icon-btn repair-edit-action" data-edit aria-label="Edit"></button><button class="icon-btn repair-delete-action" data-del aria-label="Delete"></button></div></td>
+      </tr>
+    </template>
+
+    <template id="repair-task-empty-template">
+      <tr><td class="moved-inline-047" colspan="6">No tasks match your search.</td></tr>
+    </template>
+
+    <template id="repair-task-actions-template">
+      <button class="btn btn-primary" id="new-task"><span data-new-task-icon></span> New task</button>
+    </template>
+
+    <template id="repair-task-modal-body-template">
+      <form class="form-pair">
+        <div class="field"><label class="field-label">Name</label><div class="field-control"><input class="input" id="t-name" placeholder="Brake Pads Replacement"></div><div class="field-error hidden" data-err="name"></div></div>
+        <div class="form-pair-2">
+          <div class="field"><label class="field-label">Labor cost</label><div class="field-control"><input class="input" id="t-labor" type="number" placeholder="250"></div><div class="field-error hidden" data-err="labor"></div></div>
+          <div class="field"><label class="field-label">Estimated duration (mins)</label><div class="field-control"><input class="input" id="t-dur" type="number" placeholder="60"></div><div class="field-error hidden" data-err="duration"></div></div>
+        </div>
+        <div>
+          <div class="moved-inline-090">
+            <div><label class="field-label">Parts</label><p class="moved-inline-091" id="parts-count"></p></div>
+            <button type="button" class="add-part-btn" id="add-part"><span data-add-part-icon></span> Add part</button>
+          </div>
+          <div class="moved-inline-092" id="parts-list"></div>
+          <div class="field-error hidden" data-err="parts"></div>
+        </div>
+      </form>
+    </template>
+
+    <template id="repair-task-modal-footer-template">
+      <button class="btn btn-ghost" data-cancel>Cancel</button><button class="btn btn-primary" data-save></button>
+    </template>
+
+    <template id="repair-task-empty-parts-template">
+      <button type="button" class="empty-parts" id="add-part-empty">
+        <div class="ring"><span data-empty-part-icon></span></div>
+        <div class="moved-inline-093">No parts yet</div>
+        <div class="moved-inline-091">Click to attach your first part</div>
+      </button>
+    </template>
+
+    <template id="repair-task-part-row-template">
+      <div class="parts-row">
+        <label class="parts-field parts-field-name">
+          <span class="parts-label">Part name</span>
+          <input class="input" placeholder="Engine Oil" data-p="name">
+        </label>
+        <label class="parts-field parts-field-qty">
+          <span class="parts-label">Quantity</span>
+          <input class="input" type="number" min="1" step="1" placeholder="1" data-p="qty">
+        </label>
+        <label class="parts-field parts-field-price">
+          <span class="parts-label">Unit cost</span>
+          <input class="input" type="number" min="0" step="0.01" placeholder="25.00" data-p="price">
+        </label>
+        <button type="button" class="parts-del" data-rm aria-label="Remove part"><span data-part-delete-icon></span></button>
+      </div>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/repair-tasks.api.js"></script>
+    <script src="../js/repair-tasks/dom.js"></script>
+    <script src="../js/repair-tasks/mappers.js"></script>
+    <script src="../js/repair-tasks/validators.js"></script>
+    <script src="../js/repair-tasks/render.js"></script>
+    <script src="../js/repair-tasks/forms.js"></script>
+    <script src="../js/repair-tasks/page.js"></script>
+  </body>
+</html>

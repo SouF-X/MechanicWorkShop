@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Technicians - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+    <link rel="stylesheet" href="../css/technicians.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+    <template id="technicians-page-template">
+      <section class="panel" data-technicians-page>
+        <header class="panel-head"><div><h2 class="panel-title">On staff</h2><p class="panel-sub" data-staff-count></p></div></header>
+        <div class="moved-inline-001">
+          <div class="search moved-inline-042"><span data-search-icon></span><input class="input" id="tc-q" placeholder="Search by name, email, or role..." /></div>
+        </div>
+        <div class="moved-inline-008">
+          <table class="data-table">
+            <thead><tr><th>Name</th><th>Role</th><th>Status</th><th class="moved-inline-043">Actions</th></tr></thead>
+            <tbody data-technician-body></tbody>
+          </table>
+        </div>
+      </section>
+    </template>
+
+    <template id="technician-row-template">
+      <tr>
+        <td><div class="moved-inline-062"><div class="avatar round sm" data-tech-initials></div><div><div class="moved-inline-063" data-tech-name></div><div class="moved-inline-016" data-tech-email></div></div></div></td>
+        <td><span class="role-pill" data-tech-role></span></td>
+        <td data-tech-status></td>
+        <td class="moved-inline-043"><div class="moved-inline-022"><button class="toggle-btn" data-toggle></button><button class="icon-btn" data-edit aria-label="Edit"></button><button class="icon-btn" data-del aria-label="Delete"></button></div></td>
+      </tr>
+    </template>
+
+    <template id="technician-empty-template">
+      <tr><td class="moved-inline-047" colspan="4">No technicians match your search.</td></tr>
+    </template>
+
+    <template id="technician-actions-template">
+      <button class="btn btn-primary" id="new-tech"><span data-new-tech-icon></span> New technician</button>
+    </template>
+
+    <template id="technician-status-active-template">
+      <span class="chip completed moved-inline-097"><span class="dot"></span>Active</span>
+    </template>
+
+    <template id="technician-status-inactive-template">
+      <span class="chip cancelled"><span class="dot"></span>Inactive</span>
+    </template>
+
+    <template id="technician-modal-body-template">
+      <form class="form-grid">
+        <aside class="preview-pane">
+          <div class="avatar lg" id="prev-init"></div>
+          <div class="moved-inline-011">
+            <div class="font-display moved-inline-085" id="prev-name"></div>
+            <div class="moved-inline-088"><span class="role-pill" id="prev-role"><span data-prev-role-icon></span> <span class="moved-inline-098" data-prev-role-label></span></span></div>
+          </div>
+        </aside>
+        <div class="moved-inline-002" data-tech-form-fields>
+          <div class="form-pair-2">
+            <div class="field"><label class="field-label">First name</label><div class="field-control input-with-icon"><span data-first-icon></span><input class="input" id="t-first" placeholder="Hamza"></div><div class="field-error hidden" data-err="firstName"></div></div>
+            <div class="field"><label class="field-label">Last name</label><div class="field-control"><input class="input" id="t-last" placeholder="Bennani"></div><div class="field-error hidden" data-err="lastName"></div></div>
+          </div>
+          <div class="field"><label class="field-label">Email</label><div class="field-control input-with-icon"><span data-email-icon></span><input class="input" id="t-email" type="email" placeholder="hamza@example.com"></div><div class="field-error hidden" data-err="email"></div></div>
+          <div class="field"><label class="field-label">Role</label><div class="field-control role-grid">
+            <button type="button" class="role-opt" data-role="0"><span data-role-labor-icon></span> Labor</button>
+            <button type="button" class="role-opt" data-role="1"><span data-role-manager-icon></span> Manager</button>
+          </div></div>
+        </div>
+      </form>
+    </template>
+
+    <template id="technician-password-field-template">
+      <div class="field"><label class="field-label">Password</label><div class="field-control input-with-icon password-control"><span data-password-icon></span><input class="input" id="t-pwd" type="password" placeholder="Min 6 characters"><button class="password-toggle" type="button" data-password-toggle aria-label="Show password"><span data-password-toggle-icon></span></button></div><div class="field-error hidden" data-err="password"></div></div>
+    </template>
+
+    <template id="technician-modal-footer-template">
+      <button class="btn btn-ghost" data-cancel>Cancel</button><button class="btn btn-primary" data-save></button>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/employees.api.js"></script>
+    <script src="../js/technicians/dom.js"></script>
+    <script src="../js/technicians/mappers.js"></script>
+    <script src="../js/technicians/validators.js"></script>
+    <script src="../js/technicians/render.js"></script>
+    <script src="../js/technicians/forms.js"></script>
+    <script src="../js/technicians/page.js"></script>
+  </body>
+</html>

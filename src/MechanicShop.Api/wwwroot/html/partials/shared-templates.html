@@ -1,0 +1,154 @@
+    <template id="app-shell-template">
+      <div class="sidebar-backdrop hidden" data-sidebar-backdrop></div>
+      <aside class="sidebar" data-sidebar>
+        <div class="sidebar-brand">
+          <div class="brand-logo">M</div>
+          <div class="brand-text">
+            <div class="brand-name">MECHANIC<span class="slash">/</span>OS</div>
+            <div class="brand-sub">North Bay Garage</div>
+          </div>
+          <button class="sidebar-close" data-sidebar-close aria-label="Close menu"><span data-ui-icon="x" data-size="18"></span></button>
+        </div>
+        <nav class="side-nav">
+          <div class="side-group">
+            <div class="side-group-label">Workflow</div>
+            <a class="side-link" href="dashboard.html" title="Dashboard" data-nav-link="dashboard"><span data-ui-icon="dashboard" data-size="16"></span><span class="side-link-label">Dashboard</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+            <a class="side-link" href="schedule.html" title="Schedule" data-nav-link="schedule"><span data-ui-icon="calendar" data-size="16"></span><span class="side-link-label">Schedule</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+            <a class="side-link" href="work-orders.html" title="Work Orders" data-nav-link="work-order"><span data-ui-icon="clipboard" data-size="16"></span><span class="side-link-label">Work Orders</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+          </div>
+          <div class="side-group">
+            <div class="side-group-label">Records</div>
+            <a class="side-link" href="customers.html" title="Customers" data-nav-link="customers"><span data-ui-icon="users" data-size="16"></span><span class="side-link-label">Customers</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+            <a class="side-link" href="repair-tasks.html" title="Repair Tasks" data-nav-link="repair-tasks"><span data-ui-icon="wrench" data-size="16"></span><span class="side-link-label">Repair Tasks</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+            <a class="side-link" href="invoices.html" title="Invoices" data-nav-link="invoices"><span data-ui-icon="receipt" data-size="16"></span><span class="side-link-label">Invoices</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+          </div>
+          <div class="side-group">
+            <div class="side-group-label">Shop</div>
+            <a class="side-link" href="technicians.html" title="Technicians" data-nav-link="technicians"><span data-ui-icon="hardhat" data-size="16"></span><span class="side-link-label">Technicians</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+            <a class="side-link" href="settings.html" title="Settings" data-nav-link="settings"><span data-ui-icon="settings" data-size="16"></span><span class="side-link-label">Settings</span><span class="moved-inline-096 hidden" data-active-marker></span></a>
+          </div>
+        </nav>
+        <div class="side-user">
+          <div class="side-user-card">
+            <div class="avatar" data-session-initials></div>
+            <div class="side-user-info"><div class="side-user-name" data-session-name></div><div class="side-user-role" data-session-role></div></div>
+            <button class="icon-btn" data-signout title="Sign out" aria-label="Sign out"><span data-ui-icon="logout" data-size="15"></span></button>
+          </div>
+        </div>
+      </aside>
+      <div class="main">
+        <header class="topbar">
+          <button class="topbar-menu" data-sidebar-open aria-label="Open menu"><span data-ui-icon="menu" data-size="18"></span></button>
+          <button class="topbar-toggle" data-sidebar-toggle></button>
+          <div class="topbar-crumb"><span class="crumb-group" data-shell-group></span><span class="crumb-sep"><span data-ui-icon="chevronR" data-size="12"></span></span><span class="crumb-active" data-shell-crumb></span></div>
+          <div class="topbar-right">
+            <div class="topbar-pill"><span class="dot"></span><span class="label">Shop Open</span><span class="date" data-today></span></div>
+            <div class="qc-wrap" data-qc>
+              <button class="qc-btn" data-qc-toggle><span data-ui-icon="plus" data-size="15"></span> <span class="qc-btn-label">Quick Create</span></button>
+              <div class="qc-menu hidden" data-qc-menu>
+                <div class="qc-menu-head">Create</div>
+                <ul class="qc-list">
+                  <li><a class="qc-item" href="work-orders.html"><span class="qc-icon"><span data-ui-icon="plusCb" data-size="14"></span></span><div class="qc-text"><div class="qc-label">New Work Order</div><div class="qc-hint">Open intake form</div></div><span data-ui-icon="chevronR" data-size="13"></span></a></li>
+                  <li><a class="qc-item" href="customers.html"><span class="qc-icon"><span data-ui-icon="userPlus" data-size="14"></span></span><div class="qc-text"><div class="qc-label">New Customer</div><div class="qc-hint">Add to records</div></div><span data-ui-icon="chevronR" data-size="13"></span></a></li>
+                  <li><a class="qc-item" href="repair-tasks.html"><span class="qc-icon"><span data-ui-icon="wrench" data-size="14"></span></span><div class="qc-text"><div class="qc-label">New Repair Task</div><div class="qc-hint">Catalog entry</div></div><span data-ui-icon="chevronR" data-size="13"></span></a></li>
+                </ul>
+              </div>
+            </div>
+            <button class="bell-btn" aria-label="Notifications"><span data-ui-icon="bell" data-size="15"></span></button>
+            <div class="topbar-user"><div class="avatar" data-session-initials></div><div class="topbar-user-text"><div class="n" data-session-name></div><div class="r" data-session-role></div></div></div>
+          </div>
+        </header>
+        <div class="page-head"><div><div class="page-eyebrow"><span class="bar"></span><span class="label" data-shell-group></span></div><h1 class="page-title" data-shell-title></h1></div><div class="page-actions" data-page-actions></div></div>
+        <main class="page-body" data-page-body></main>
+      </div>
+    </template>
+
+    <template id="modal-template">
+      <div class="modal-backdrop" data-close></div>
+      <div class="modal-grid">
+        <div class="modal-card" role="dialog" aria-modal="true" data-modal-card>
+          <header class="modal-head">
+            <div class="moved-inline-003"><div class="modal-title" data-modal-title></div><div class="modal-sub hidden" data-modal-subtitle></div></div>
+            <button class="modal-close" data-close aria-label="Close"><span data-ui-icon="x" data-size="16"></span></button>
+          </header>
+          <div class="modal-body" data-modal-body></div>
+          <footer class="modal-foot hidden" data-modal-footer></footer>
+        </div>
+      </div>
+    </template>
+
+    <template id="confirm-dialog-template">
+      <div class="modal-backdrop confirm-backdrop" data-close></div>
+      <div class="modal-grid">
+        <div class="modal-card sm">
+          <div class="confirm-body">
+            <div class="confirm-icon"><span data-ui-icon="alert" data-size="18"></span></div>
+            <div class="moved-inline-011"><div class="confirm-title" data-confirm-title></div><div class="confirm-desc" data-confirm-description></div></div>
+          </div>
+          <footer class="modal-foot"><button class="btn btn-ghost" data-close>Cancel</button><button class="btn btn-destructive" data-confirm></button></footer>
+        </div>
+      </div>
+    </template>
+
+    <template id="toast-template"><div class="toast"><span data-ui-icon="check" data-size="14"></span> <span data-toast-message></span></div></template>
+    <template id="state-chip-template"><span class="chip"><span class="dot"></span><span data-chip-label></span></span></template>
+    <template id="invoice-chip-template"><span class="chip"><span class="dot"></span><span data-chip-label></span></span></template>
+
+
+    <svg class="icon-sprite" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden">
+      <symbol id="icon-dashboard" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/></symbol>
+      <symbol id="icon-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4M8 14h2M14 14h2M8 18h2M14 18h2"/></symbol>
+      <symbol id="icon-clipboard" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M9 12h6M9 16h6"/></symbol>
+      <symbol id="icon-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+      <symbol id="icon-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94z"/></symbol>
+      <symbol id="icon-receipt" viewBox="0 0 24 24"><path d="M4 21V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v16l-3-2-3 2-3-2-3 2-3-2Z"/><path d="M8 8h8M8 12h8M8 16h5"/></symbol>
+      <symbol id="icon-hardhat" viewBox="0 0 24 24"><path d="M2 17h20v3H2zM6 17v-5a6 6 0 0 1 12 0v5"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></symbol>
+      <symbol id="icon-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1Z"/></symbol>
+      <symbol id="icon-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10 21a2 2 0 0 0 4 0"/></symbol>
+      <symbol id="icon-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
+      <symbol id="icon-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+      <symbol id="icon-chevronR" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+      <symbol id="icon-chevronL" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+      <symbol id="icon-plusCb" viewBox="0 0 24 24"><rect x="6" y="4" width="12" height="17" rx="2"/><rect x="9" y="2" width="6" height="4" rx="1"/><path d="M12 11v6M9 14h6"/></symbol>
+      <symbol id="icon-userPlus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
+      <symbol id="icon-panelClose" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M16 9l-3 3 3 3"/></symbol>
+      <symbol id="icon-panelOpen" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M14 9l3 3-3 3"/></symbol>
+      <symbol id="icon-loader" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></symbol>
+      <symbol id="icon-check2" viewBox="0 0 24 24"><path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><path d="m9 11 3 3L22 4"/></symbol>
+      <symbol id="icon-xCircle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
+      <symbol id="icon-dollar" viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></symbol>
+      <symbol id="icon-alert" viewBox="0 0 24 24"><path d="m10.3 3.86-8.1 14a2 2 0 0 0 1.7 3h16.2a2 2 0 0 0 1.7-3l-8.1-14a2 2 0 0 0-3.4 0Z"/><path d="M12 9v4M12 17h.01"/></symbol>
+      <symbol id="icon-arrowUR" viewBox="0 0 24 24"><path d="M7 17 17 7M7 7h10v10"/></symbol>
+      <symbol id="icon-activity" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></symbol>
+      <symbol id="icon-fileText" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></symbol>
+      <symbol id="icon-filter" viewBox="0 0 24 24"><path d="M22 3H2l8 9.5V19l4 2v-8.5z"/></symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol>
+      <symbol id="icon-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+      <symbol id="icon-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></symbol>
+      <symbol id="icon-car" viewBox="0 0 24 24"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></symbol>
+      <symbol id="icon-user" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></symbol>
+      <symbol id="icon-arrowLeft" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7M19 12H5"/></symbol>
+      <symbol id="icon-userCog" viewBox="0 0 24 24"><path d="M10 21v-2a4 4 0 0 0-4-4H4a2 2 0 0 0-2 2v4"/><circle cx="6" cy="7" r="4"/><circle cx="18" cy="15" r="3"/><path d="M21.7 16.4 23 17M14.3 13.6 13 13M21.7 13.6 23 13M14.3 16.4 13 17M18 11v1M18 18v1"/></symbol>
+      <symbol id="icon-move" viewBox="0 0 24 24"><path d="M5 9 2 12l3 3M9 5l3-3 3 3M15 19l-3 3-3-3M19 9l3 3-3 3M2 12h20M12 2v20"/></symbol>
+      <symbol id="icon-shield" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></symbol>
+      <symbol id="icon-shieldChk" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+      <symbol id="icon-printer" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
+      <symbol id="icon-rotate" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.3 2.6L3 8"/><path d="M3 3v5h5"/></symbol>
+      <symbol id="icon-coin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M16 8h-5a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4H8"/><path d="M12 6v2M12 16v2"/></symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+      <symbol id="icon-pin" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0Z"/><circle cx="12" cy="10" r="3"/></symbol>
+      <symbol id="icon-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8M7 3v5h8"/></symbol>
+      <symbol id="icon-building" viewBox="0 0 24 24"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M9 7h.01M15 7h.01M9 11h.01M15 11h.01M9 15h.01M15 15h.01M10 22v-4h4v4"/></symbol>
+      <symbol id="icon-power" viewBox="0 0 24 24"><path d="M18.4 6.6a9 9 0 1 1-12.8 0"/><path d="M12 2v10"/></symbol>
+      <symbol id="icon-lock" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
+      <symbol id="icon-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></symbol>
+      <symbol id="icon-eyeOff" viewBox="0 0 24 24"><path d="M3 3l18 18"/><path d="M10.6 10.6A3 3 0 0 0 12 15a3 3 0 0 0 2.4-1.2"/><path d="M9.9 4.2A10.8 10.8 0 0 1 12 4c6.5 0 10 8 10 8a18.5 18.5 0 0 1-3.1 4.2"/><path d="M6.1 6.1C3.5 7.9 2 12 2 12s3.5 8 10 8a10.8 10.8 0 0 0 5.9-1.8"/></symbol>
+      <symbol id="icon-alertC" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
+      <symbol id="icon-arrowRt" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></symbol>
+    </svg>

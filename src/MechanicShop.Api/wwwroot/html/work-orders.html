@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Work Orders - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+    <link rel="stylesheet" href="../css/work-orders.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+    <template id="work-orders-page-template">
+      <section class="panel" data-work-orders-page>
+        <div class="wo-toolbar">
+          <div class="search"><span data-search-icon></span><input class="input" id="wo-q" placeholder="Search WO #, customer, vehicle, plate..." /></div>
+          <div class="filter-group"><span data-filter-icon></span><span data-state-filters></span></div>
+        </div>
+        <div class="moved-inline-008">
+          <table class="data-table">
+            <thead><tr>
+              <th>WO</th><th>Customer &middot; Vehicle</th><th>Technician</th><th>Scheduled</th>
+              <th>Tasks</th><th>State</th><th>Invoice</th><th class="wo-action"></th>
+            </tr></thead>
+            <tbody data-work-orders-body></tbody>
+          </table>
+        </div>
+        <div class="pagination">
+          <span data-pagination-summary></span>
+          <div class="moved-inline-081">
+            <button class="pg-btn" id="pg-prev">Previous</button>
+            <span class="tabular moved-inline-082" data-page-label></span>
+            <button class="pg-btn" id="pg-next">Next</button>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <template id="work-order-row-template">
+      <tr>
+        <td><a class="moved-inline-044" data-wo-link></a><div class="sub" data-wo-bay></div></td>
+        <td><div data-wo-customer></div><div class="sub" data-wo-vehicle></div></td>
+        <td data-wo-technician></td>
+        <td class="muted tabular" data-wo-scheduled></td>
+        <td class="muted" data-wo-tasks></td>
+        <td data-wo-state></td>
+        <td data-wo-invoice></td>
+        <td class="wo-action"><div class="wo-actions"><button class="icon-btn wo-edit" data-edit aria-label="Modify"></button><button class="icon-btn wo-delete" data-del aria-label="Delete"></button></div></td>
+      </tr>
+    </template>
+
+    <template id="work-order-empty-template">
+      <tr><td class="moved-inline-084" colspan="8">No work orders match these filters.</td></tr>
+    </template>
+
+    <template id="work-order-actions-template">
+      <button class="btn btn-primary" id="new-wo"><span data-new-wo-icon></span> New work order</button>
+    </template>
+
+    <template id="work-order-filter-template">
+      <button class="filter-btn" data-st></button>
+    </template>
+
+    <template id="work-order-invoice-number-template">
+      <span class="wo-invoice-text" data-invoice-number></span>
+    </template>
+
+    <template id="work-order-invoice-ready-template">
+      <span class="wo-invoice-text wo-invoice-ready">Ready to issue</span>
+    </template>
+
+    <template id="work-order-invoice-empty-template">
+      <span class="wo-invoice-text wo-invoice-empty">-</span>
+    </template>
+
+    <template id="work-order-modal-body-template">
+      <form class="form-pair">
+        <div class="field"><label class="field-label">Vehicle</label><div class="field-control"><select class="input" id="f-veh"></select></div></div>
+        <div class="form-pair-2">
+          <div class="field"><label class="field-label">Labor</label><div class="field-control"><select class="input" id="f-lab"></select></div></div>
+          <div class="field"><label class="field-label">Spot</label><div class="field-control spot-grid" id="f-spot"></div></div>
+        </div>
+        <div class="form-pair-2">
+          <div class="field"><label class="field-label">Start date</label><div class="field-control"><input class="input" id="f-date" type="date"></div></div>
+          <div class="field"><label class="field-label">Start time</label><div class="field-control"><input class="input" id="f-time" type="time"></div></div>
+        </div>
+        <div class="field">
+          <label class="field-label">Repair tasks</label>
+          <div class="field-control task-grid" id="f-tasks"></div>
+          <div class="field-hint" id="task-hint">0 selected</div>
+          <div class="field-error hidden" data-err="tasks"></div>
+        </div>
+      </form>
+    </template>
+
+    <template id="work-order-spot-template">
+      <button type="button" class="spot-btn" data-spot></button>
+    </template>
+
+    <template id="work-order-task-template">
+      <button type="button" class="task-btn" data-task><span data-task-name></span><span class="price tabular" data-task-price></span></button>
+    </template>
+
+    <template id="work-order-modal-footer-template">
+      <button class="btn btn-ghost" data-cancel>Cancel</button><button class="btn btn-primary" data-save>Create work order</button>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/customers.api.js"></script>
+    <script src="../js/Api/employees.api.js"></script>
+    <script src="../js/Api/repair-tasks.api.js"></script>
+    <script src="../js/Api/workorders.api.js"></script>
+    <script src="../js/work-orders/dom.js"></script>
+    <script src="../js/work-orders/mappers.js"></script>
+    <script src="../js/work-orders/render.js"></script>
+    <script src="../js/work-orders/forms.js"></script>
+    <script src="../js/work-orders/page.js"></script>
+  </body>
+</html>

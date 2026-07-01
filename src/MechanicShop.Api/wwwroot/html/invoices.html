@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Invoices - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+    <link rel="stylesheet" href="../css/invoices.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+    <template id="invoice-list-page-template">
+      <div class="inv-search"><span data-search-icon></span><input class="input" id="inv-q" placeholder="Search invoices by number, customer, work order..." /></div>
+      <div class="inv-cols" data-invoice-columns></div>
+    </template>
+
+    <template id="invoice-column-template">
+      <section class="panel inv-col">
+        <div class="inv-bar" data-column-bar></div>
+        <div class="inv-col-head">
+          <div class="moved-inline-010">
+            <div class="inv-col-icon" data-column-icon></div>
+            <div class="moved-inline-011">
+              <div class="moved-inline-012"><h3 class="inv-col-title" data-column-title></h3><span class="inv-count-pill" data-column-count></span></div>
+              <p class="inv-col-sub" data-column-subtitle></p>
+            </div>
+          </div>
+          <div class="moved-inline-013"><div class="inv-total-label">Total</div><div class="inv-total-val" data-column-total></div></div>
+        </div>
+        <ul class="inv-list" data-column-list></ul>
+      </section>
+    </template>
+
+    <template id="invoice-card-template">
+      <li><button class="inv-card" data-open>
+        <div class="inv-card-head">
+          <div class="moved-inline-011">
+            <div class="moved-inline-014"><span class="inv-no" data-invoice-number></span><span class="moved-inline-015">&middot;</span><span class="moved-inline-016" data-workorder-number></span></div>
+            <div class="moved-inline-017"><div class="inv-c-avatar" data-customer-initials></div><div class="moved-inline-011"><div class="truncate moved-inline-018" data-customer-name></div><div class="truncate moved-inline-019" data-vehicle-name></div></div></div>
+          </div>
+          <div class="moved-inline-013"><div class="tabular moved-inline-020" data-invoice-total></div><div class="moved-inline-021">Open <span data-open-icon></span></div></div>
+        </div>
+        <div class="inv-card-foot"><span class="moved-inline-022"><span data-clock-icon></span> <span data-issued-date></span></span><span data-invoice-chip></span></div>
+      </button></li>
+    </template>
+
+    <template id="invoice-empty-card-template"><li class="moved-inline-023">No invoices here</li></template>
+
+    <template id="invoice-detail-page-template">
+      <div class="inv-doc-wrap">
+        <div class="inv-doc-bar"><button class="inv-back" id="inv-back"><span data-back-icon></span> <span class="font-mono" data-detail-workorder></span></button><div class="moved-inline-024"><button class="btn btn-outline" id="print-invoice"><span data-print-icon></span> Print</button><button class="btn btn-outline" id="download-invoice"><span data-download-icon></span> PDF</button><span data-paid-action></span></div></div>
+        <div class="inv-doc">
+          <div class="inv-watermark" data-watermark></div>
+          <div class="inv-doc-head">
+            <div class="moved-inline-011"><div class="inv-eyebrow">Invoice</div><div class="inv-no-big" data-detail-number></div><div class="inv-issued" data-detail-issued></div><div class="moved-inline-025" data-detail-status></div></div>
+            <div class="moved-inline-013"><div class="inv-shop"><div class="inv-shop-logo" data-shop-logo></div><span class="inv-shop-name" data-shop-name></span></div><div class="inv-shop-addr"><div>142 Industrial Way</div><div>North Bay, CA &middot; 94560</div><div class="moved-inline-026">EIN 00-2344119000084</div></div></div>
+          </div>
+          <div class="inv-doc-meta">
+            <div><div class="inv-meta-label">Billed to</div><div class="inv-meta-val" data-billed-name></div><div class="inv-meta-sub" data-billed-contact></div></div>
+            <div><div class="inv-meta-label">Vehicle</div><div class="inv-meta-val" data-detail-vehicle></div><div class="inv-meta-sub" data-detail-plate></div></div>
+            <div><div class="inv-meta-label">Work Order</div><div class="inv-meta-val moved-inline-027" data-meta-workorder></div><div class="inv-meta-sub moved-inline-028"><span data-meta-state></span><span class="moved-inline-029">&middot;</span><span data-pin-icon></span><span data-meta-bay></span></div></div>
+          </div>
+          <div><div class="inv-line-head"><div class="moved-inline-030">#</div><div class="moved-inline-031">Description</div><div class="moved-inline-032">Qty</div><div class="moved-inline-033">Unit</div><div class="moved-inline-033">Total</div></div><ul data-line-items></ul></div>
+          <div class="inv-doc-foot"><div><div class="inv-meta-label moved-inline-034">Notes</div><p class="moved-inline-035">Payment due within <span class="moved-inline-036">14 days</span>. Warranty 6 months on parts, 90 days on labor. Thank you for choosing <span data-note-shop></span>.</p></div><div><div class="moved-inline-037" data-total-lines></div></div></div>
+        </div>
+      </div>
+    </template>
+
+    <template id="invoice-line-template">
+      <li class="inv-line"><div class="font-mono tabular muted moved-inline-030" data-line-number></div><div class="moved-inline-038" data-line-desc></div><div class="muted tabular moved-inline-039" data-line-qty></div><div class="muted font-mono tabular moved-inline-040" data-line-unit></div><div class="font-mono tabular moved-inline-041" data-line-total></div></li>
+    </template>
+
+    <template id="invoice-total-final-template">
+      <div class="moved-inline-099"><div class="inv-total-big-label" data-total-label></div><span class="inv-total-big" data-total-value></span></div>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/invoices.api.js"></script>
+    <script src="../js/Api/workorders.api.js"></script>
+    <script src="../js/invoices/dom.js"></script>
+    <script src="../js/invoices/data.js"></script>
+    <script src="../js/invoices/render.js"></script>
+    <script src="../js/invoices/page.js"></script>
+  </body>
+</html>

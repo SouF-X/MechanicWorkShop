@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Schedule - MechanicOS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" />
+    <link rel="stylesheet" href="../css/shared.css" />
+    <link rel="stylesheet" href="../css/moved-inline.css" />
+    <link rel="stylesheet" href="../css/schedule.css" />
+  </head>
+  <body>
+    <div class="app" data-shell></div>
+
+
+
+    <template id="schedule-actions-template">
+      <div class="day-nav"><button id="day-prev"><span data-ui-icon="chevronL" data-size="14"></span></button><div class="date" data-date-label></div><button id="day-next"><span data-ui-icon="chevronR" data-size="14"></span></button></div><label class="calendar-jump" title="Jump to date"><span data-ui-icon="calendar" data-size="14"></span><input id="schedule-date-picker" type="date" /></label><button class="btn btn-outline" id="day-today">Today</button>
+    </template>
+
+    <template id="schedule-page-template">
+      <section class="panel">
+        <header class="panel-head">
+          <div><h2 class="panel-title" data-hours-title></h2><p class="panel-sub" data-job-count></p></div>
+          <div class="moved-inline-012"><span data-filter-icon></span><select id="tech-filter" class="input moved-inline-048"></select></div>
+        </header>
+        <div class="sched-wrap"><div class="sched-grid" data-schedule-grid></div></div>
+      </section>
+      <div class="legend"><span class="moved-inline-049">Legend:</span><span data-legend-chips></span></div>
+    </template>
+
+    <template id="schedule-job-template">
+      <div class="sched-slot"><a class="sched-job" data-job-link><div class="moved-inline-050"><span class="name" data-job-customer></span><span data-job-state></span></div><div class="veh" data-job-vehicle></div><div class="num" data-job-number></div></a></div>
+    </template>
+
+    <script src="../js/shared/templates.js"></script>
+    <script src="../js/shared/icons.js"></script>
+    <script src="../js/shared/session.js"></script>
+    <script src="../js/shared/components.js"></script>
+    <script src="../js/shared/utils.js"></script>
+    <script src="../js/shared/shell.js"></script>
+    <script src="../js/Api/core.js"></script>
+    <script src="../js/Api/employees.api.js"></script>
+    <script src="../js/Api/workorders.api.js"></script>
+    <script src="../js/schedule/dom.js?v=4"></script>
+    <script src="../js/schedule/mappers.js?v=4"></script>
+    <script src="../js/schedule/render.js?v=4"></script>
+    <script src="../js/schedule/page.js?v=4"></script>
+  </body>
+</html>
