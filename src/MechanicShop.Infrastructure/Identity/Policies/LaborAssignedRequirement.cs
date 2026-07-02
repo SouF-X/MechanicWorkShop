@@ -20,7 +20,7 @@ public class LaborAssignedHandler(IAppDbContext context, IHttpContextAccessor ht
     {
         var userId = context.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        if (string.IsNullOrEmpty(userId))
+        if (!Guid.TryParse(userId, out var employeeId))
         {
             context.Fail();
             return;
@@ -36,7 +36,7 @@ public class LaborAssignedHandler(IAppDbContext context, IHttpContextAccessor ht
         }
 
         var isAssigned = await _context.WorkOrders
-            .AnyAsync(a => a.Id == workOrderId && a.LaborId == Guid.Parse(userId));
+            .AnyAsync(a => a.Id == workOrderId && a.LaborId == employeeId);
 
         if (isAssigned)
         {

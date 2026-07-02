@@ -18,10 +18,7 @@
   }
 
   async function request(path, options = {}) {
-    const res = await fetch(API_BASE + path, {
-      headers: buildHeaders(options),
-      ...options,
-    });
+    const res = await fetchWithRefresh(path, options);
 
     if (!res.ok) {
       throw new Error(await getErrorMessage(res));
@@ -35,19 +32,90 @@
   }
 
   async function requestBlob(path, options = {}) {
-    const headers = buildHeaders(options);
+    const blobOptions = { ...options };
+    const headers = buildHeaders(blobOptions);
     delete headers["Content-Type"];
+    blobOptions.headers = headers;
 
-    const res = await fetch(API_BASE + path, {
-      headers,
-      ...options,
-    });
+    const res = await fetchWithRefresh(path, blobOptions, { headersAlreadyBuilt: true });
 
     if (!res.ok) {
       throw new Error(await getErrorMessage(res));
     }
 
     return res.blob();
+  }
+
+  async function fetchWithRefresh(path, options = {}, { headersAlreadyBuilt = false } = {}) {
+    const res = await fetch(API_BASE + path, {
+      ...options,
+      headers: headersAlreadyBuilt ? options.headers : buildHeaders(options),
+    });
+
+    if (res.status !== 401 || options._retry || isAuthEndpoint(path)) {
+      return res;
+    }
+
+    const refreshed = await refreshAccessToken();
+    if (!refreshed) {
+      window.UI?.signOut?.();
+      if (location.pathname.includes("/html/")) {
+        location.href = "../index.html";
+      }
+      return res;
+    }
+
+    return fetch(API_BASE + path, {
+      ...options,
+      _retry: true,
+      headers: headersAlreadyBuilt ? rebuildAuthorizationHeader(options.headers) : buildHeaders(options),
+    });
+  }
+
+  function isAuthEndpoint(path) {
+    return path.startsWith("/identity/token/");
+  }
+
+  function rebuildAuthorizationHeader(headers = {}) {
+    const token = localStorage.getItem("accessToken");
+    return {
+      ...headers,
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    };
+  }
+
+  let refreshPromise = null;
+
+  async function refreshAccessToken() {
+    const expiredAccessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (!expiredAccessToken || !refreshToken) {
+      return false;
+    }
+
+    if (!refreshPromise) {
+      refreshPromise = fetch(API_BASE + "/identity/token/refresh-token", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken, expiredAccessToken }),
+      })
+        .then(async (res) => {
+          if (!res.ok) return false;
+
+          const tokens = await res.json();
+          localStorage.setItem("accessToken", tokens.accessToken);
+          localStorage.setItem("refreshToken", tokens.refreshToken);
+          localStorage.setItem("expiresOnUtc", tokens.expiresOnUtc);
+          return true;
+        })
+        .catch(() => false)
+        .finally(() => {
+          refreshPromise = null;
+        });
+    }
+
+    return refreshPromise;
   }
 
   async function getErrorMessage(res) {
@@ -70,4 +138,5 @@
   window.API = window.API || {};
   window.API.request = request;
   window.API.requestBlob = requestBlob;
+  window.API.refreshAccessToken = refreshAccessToken;
 })();

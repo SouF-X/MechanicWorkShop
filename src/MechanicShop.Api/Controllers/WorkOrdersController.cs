@@ -1,4 +1,6 @@
-﻿using Asp.Versioning;
+﻿using System.Security.Claims;
+
+using Asp.Versioning;
 using MechanicShop.Application.Common.Models;
 using MechanicShop.Application.Features.Scheduling.Dtos;
 using MechanicShop.Application.Features.Scheduling.Queries.GetDailyScheduleQuery;
@@ -13,11 +15,13 @@ using MechanicShop.Application.Features.WorkOrders.Queries.GetWorkOrderByIdQuery
 using MechanicShop.Application.Features.WorkOrders.Queries.GetWorkOrders;
 using MechanicShop.Contracts.Requests.WorkOrders;
 using MechanicShop.Domain.Identity;
+using MechanicShop.Infrastructure.Settings;
 using MechanicShop.Domain.Workorders.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
+using Microsoft.Extensions.Options;
 
 namespace MechanicShop.Api.Controllers;
 
@@ -25,7 +29,7 @@ namespace MechanicShop.Api.Controllers;
 [ApiVersion("1.0")]
 [Authorize]
 [EnableRateLimiting("SlidingWindow")]
-public sealed class WorkOrdersController(ISender sender) : ApiController
+public sealed class WorkOrdersController(ISender sender, IOptions<AppSettings> options) : ApiController
 {
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<WorkOrderListItemDto>), StatusCodes.Status200OK)]
@@ -51,6 +55,13 @@ public sealed class WorkOrdersController(ISender sender) : ApiController
             return BadRequest("PageSize must be between 1 and 100");
         }
 
+        var effectiveLaborId = GetEffectiveLaborId(filters.LaborId);
+
+        if (IsLaborOnly() && effectiveLaborId is null)
+        {
+            return Forbid();
+        }
+
         var query = new GetWorkOrdersQuery(
             pageRequest.Page,
             pageRequest.PageSize,
@@ -59,7 +70,7 @@ public sealed class WorkOrdersController(ISender sender) : ApiController
             filters.SortDirection,
             filters.State is not null ? (WorkOrderState)(int)filters.State : null,
             filters.VehicleId,
-            filters.LaborId,
+            effectiveLaborId,
             filters.StartDateFrom,
             filters.StartDateTo,
             filters.EndDateFrom,
@@ -72,6 +83,9 @@ public sealed class WorkOrdersController(ISender sender) : ApiController
     }
 
     [HttpGet("{workOrderId:guid}", Name = "GetWorkOrderById")]
+    [Authorize(
+        Roles = $"{nameof(Role.Manager)},{nameof(Role.Labor)}",
+        Policy = "SelfScopedWorkOrderAccess")]
     [ProducesResponseType(typeof(WorkOrderDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -83,7 +97,9 @@ public sealed class WorkOrdersController(ISender sender) : ApiController
     {
         var result = await sender.Send(new GetWorkOrderByIdQuery(workOrderId), ct);
 
-        return result.Match(response => Ok(response), Problem);
+        return result.Match(
+            response => Ok(IsLaborOnly() ? SanitizeForLabor(response) : response),
+            Problem);
     }
 
     [HttpPost]
@@ -181,9 +197,16 @@ public sealed class WorkOrdersController(ISender sender) : ApiController
         UpdateWorkOrderStateRequest request,
         CancellationToken ct)
     {
+        var requestedState = (WorkOrderState)(int)request.State;
+
+        if (IsLaborOnly() && requestedState is not WorkOrderState.InProgress and not WorkOrderState.Completed)
+        {
+            return Forbid();
+        }
+
         var command = new UpdateWorkOrderStateCommand(
             workOrderId,
-            (WorkOrderState)(int)request.State);
+            requestedState);
 
         var result = await sender.Send(command, ct);
 
@@ -280,11 +303,93 @@ public sealed class WorkOrdersController(ISender sender) : ApiController
         }
 
         var scheduleDate = date ?? DateOnly.FromDateTime(DateTime.UtcNow);
+        var effectiveLaborId = GetEffectiveLaborId(laborId);
+
+        if (IsLaborOnly() && effectiveLaborId is null)
+        {
+            return Forbid();
+        }
+
+        var appSettings = options.Value;
 
         var result = await sender.Send(
-            new GetDailyScheduleQuery(timeZone, scheduleDate, laborId),
+            new GetDailyScheduleQuery(
+                timeZone,
+                scheduleDate,
+                appSettings.OpeningTime,
+                appSettings.ClosingTime,
+                effectiveLaborId),
             ct);
 
-        return result.Match(response => Ok(response), Problem);
+        return result.Match(
+            response => Ok(IsLaborOnly() ? SanitizeForLabor(response) : response),
+            Problem);
+    }
+
+    private bool IsLaborOnly() =>
+        User.IsInRole(nameof(Role.Labor)) && !User.IsInRole(nameof(Role.Manager));
+
+    private Guid? GetEffectiveLaborId(Guid? requestedLaborId)
+    {
+        if (!IsLaborOnly())
+        {
+            return requestedLaborId;
+        }
+
+        return Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var currentLaborId)
+            ? currentLaborId
+            : null;
+    }
+
+    private static WorkOrderDto SanitizeForLabor(WorkOrderDto workOrder)
+    {
+        workOrder.InvoiceId = null;
+        workOrder.TotalPartCost = 0;
+        workOrder.TotalLaborCost = 0;
+        workOrder.TotalCost = 0;
+
+        if (workOrder.Customer is not null)
+        {
+            workOrder.Customer.PhoneNumber = string.Empty;
+            workOrder.Customer.Email = string.Empty;
+            workOrder.Customer.Vehicles = [];
+        }
+
+        foreach (var repairTask in workOrder.RepairTasks)
+        {
+            repairTask.LaborCost = 0;
+            repairTask.TotalCost = 0;
+
+            foreach (var part in repairTask.Parts)
+            {
+                part.Cost = 0;
+            }
+        }
+
+        return workOrder;
+    }
+
+    private static ScheduleDto SanitizeForLabor(ScheduleDto schedule)
+    {
+        foreach (var slot in schedule.Spots.SelectMany(spot => spot.Slots))
+        {
+            if (slot.RepairTasks is null)
+            {
+                continue;
+            }
+
+            foreach (var repairTask in slot.RepairTasks)
+            {
+                repairTask.LaborCost = 0;
+                repairTask.TotalCost = 0;
+
+                foreach (var part in repairTask.Parts)
+                {
+                    part.Cost = 0;
+                }
+            }
+        }
+
+        return schedule;
     }
 }

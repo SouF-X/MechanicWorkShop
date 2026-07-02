@@ -17,7 +17,7 @@
       }
 
       const actions = templateFragment("work-order-detail-actions-template");
-      if (detail.workOrder.state === "Completed" && !detail.invoice) {
+      if (window.UI.isManager() && detail.workOrder.state === "Completed" && !detail.invoice) {
         actions.querySelector("#issue-inv").classList.remove("hidden");
       }
 

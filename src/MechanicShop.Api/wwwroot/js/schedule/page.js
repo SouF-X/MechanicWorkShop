@@ -24,7 +24,14 @@
 
   // Starts page by loading employees and the selected day schedule.
   function init() {
-    loadEmployees().finally(loadSchedule);
+    if (window.UI.isManager()) {
+      loadEmployees().finally(loadSchedule);
+      return;
+    }
+
+    state.employees = [];
+    state.techFilter = "all";
+    loadSchedule();
   }
 
   // Re-renders shell actions while keeping the same page body reference.

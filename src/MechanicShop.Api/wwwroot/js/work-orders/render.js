@@ -20,6 +20,10 @@
     renderFilters(body, state.stateFilter);
     renderRows(body, state.list);
 
+    if (!window.UI.isManager()) {
+      body.querySelectorAll(".wo-action").forEach((el) => el.remove());
+    }
+
     body.querySelector("[data-pagination-summary]").textContent = "Showing " + state.list.length + " of " + state.totalCount;
     body.querySelector("[data-page-label]").textContent = state.page + " / " + pages;
     body.querySelector("#pg-prev").disabled = state.page === 1;

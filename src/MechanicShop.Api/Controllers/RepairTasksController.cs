@@ -21,7 +21,7 @@ namespace MechanicShop.Api.Controllers;
 
 [Route("api/v{version:apiVersion}/repair-tasks")]
 [ApiVersion("1.0")]
-[Authorize]
+[Authorize(Policy = "ManagerOnly")]
 [EnableRateLimiting("SlidingWindow")]
 public sealed class RepairTasksController(ISender sender) : ApiController
 {

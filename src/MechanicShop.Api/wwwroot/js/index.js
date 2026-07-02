@@ -15,8 +15,9 @@
   document.getElementById("year").textContent = new Date().getFullYear();
 
   // If a local session exists, skip the login screen.
-  if (window.UI.getSession()) {
-    location.href = "html/dashboard.html";
+  const existingSession = window.UI.getSession();
+  if (existingSession) {
+    location.href = window.UI.defaultHome(existingSession);
     return;
   }
 
@@ -25,9 +26,6 @@
   const errEl = document.getElementById("login-error");
   const btn = document.getElementById("login-submit");
   const lbl = document.getElementById("login-label");
-
-  document.getElementById("email").value = "manager@localhost";
-  document.getElementById("password").value = "manager123";
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -50,8 +48,8 @@
         return window.API.auth.currentUser();
       })
       .then((profile) => {
-        window.UI.signIn(profile);
-        location.href = "html/dashboard.html";
+        const session = window.UI.signIn(profile);
+        location.href = window.UI.defaultHome(session);
       })
       .catch((err) => {
         showError(err.message);

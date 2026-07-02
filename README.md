@@ -207,7 +207,7 @@ For local development, create a development settings file with a first manager a
     "FirstName": "Primary",
     "LastName": "Manager",
     "Email": "manager@localhost",
-    "Password": "manager123"
+    "Password": "replace-with-a-local-dev-password"
   }
 }
 ```
@@ -216,7 +216,7 @@ Demo login:
 
 ```txt
 Email: manager@localhost
-Password: manager123
+Password: use the password from your local appsettings.Development.json
 ```
 
 ---

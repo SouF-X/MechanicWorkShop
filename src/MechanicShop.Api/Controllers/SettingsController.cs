@@ -3,6 +3,7 @@
 using MechanicShop.Contracts.Responses;
 using MechanicShop.Infrastructure.Settings;
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.Extensions.Options;
@@ -11,6 +12,7 @@ namespace MechanicShop.Api.Controllers;
 
 [Route("api/settings")]
 [ApiVersionNeutral]
+[Authorize]
 [EnableRateLimiting("SlidingWindow")]
 public sealed class SettingsController(IOptions<AppSettings> options) : ApiController
 {

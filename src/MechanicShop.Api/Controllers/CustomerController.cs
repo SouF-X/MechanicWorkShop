@@ -25,7 +25,7 @@ namespace MechanicShop.Api.Controllers;
 
 [Route("api/v{version:apiVersion}/customers")]
 [ApiVersion("1.0")]
-[Authorize]
+[Authorize(Policy = "ManagerOnly")]
 [EnableRateLimiting("SlidingWindow")]
 public sealed class CustomersController(ISender sender) : ApiController
 {

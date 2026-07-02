@@ -50,6 +50,18 @@
     return role || "User";
   }
 
+  function isManager(session = getSession()) {
+    return normalizeRole(session?.role) === "Manager";
+  }
+
+  function isLabor(session = getSession()) {
+    return normalizeRole(session?.role) === "Labor";
+  }
+
+  function defaultHome(session = getSession()) {
+    return isManager(session) ? "html/dashboard.html" : "html/schedule.html";
+  }
+
   function applySessionToDom(session) {
     if (!session) return;
     document.querySelectorAll("[data-session-initials]").forEach(el => { el.textContent = session.initials; });
@@ -85,6 +97,9 @@
     signIn,
     signOut,
     normalizeRole,
+    isManager,
+    isLabor,
+    defaultHome,
     applySessionToDom,
     refreshSessionFromBackend,
   });

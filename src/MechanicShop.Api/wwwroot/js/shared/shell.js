@@ -18,6 +18,13 @@
     const session = window.UI.getSession();
     if (!session) { location.href = "../index.html"; return; }
 
+    const managerOnlyPages = ["dashboard.html", "customers.html", "repair-tasks.html", "invoices.html", "technicians.html"];
+    const currentPage = location.pathname.split("/").pop();
+    if (!window.UI.isManager(session) && managerOnlyPages.includes(currentPage)) {
+      location.href = "schedule.html";
+      return;
+    }
+
     const root = document.querySelector("[data-shell]");
     const template = window.UI.getTemplate("app-shell-template");
     if (!root || !template) return;
@@ -41,6 +48,12 @@
     window.UI.setIcon(toggle, collapsed ? "panelOpen" : "panelClose", 15);
 
     const path = location.pathname;
+    if (!window.UI.isManager(session)) {
+      ["dashboard.html", "customers.html", "repair-tasks.html", "invoices.html", "technicians.html"].forEach(href => {
+        shell.querySelector(`.side-link[href="${href}"]`)?.remove();
+      });
+    }
+
     shell.querySelectorAll("[data-nav-link]").forEach(link => {
       const key = link.dataset.navLink;
       const active = key === "work-order" ? /work-order/.test(path) : path.includes(key);
@@ -72,13 +85,17 @@
 
     // Quick Create dropdown
     const qcWrap = document.querySelector("[data-qc]");
-    const qcMenu = qcWrap.querySelector("[data-qc-menu]");
-    qcWrap.querySelector("[data-qc-toggle]").addEventListener("click", (e) => {
-      e.stopPropagation(); qcMenu.classList.toggle("hidden");
-    });
-    document.addEventListener("click", (e) => {
-      if (!qcWrap.contains(e.target)) qcMenu.classList.add("hidden");
-    });
+    if (qcWrap && !window.UI.isManager(session)) {
+      qcWrap.remove();
+    } else if (qcWrap) {
+      const qcMenu = qcWrap.querySelector("[data-qc-menu]");
+      qcWrap.querySelector("[data-qc-toggle]").addEventListener("click", (e) => {
+        e.stopPropagation(); qcMenu.classList.toggle("hidden");
+      });
+      document.addEventListener("click", (e) => {
+        if (!qcWrap.contains(e.target)) qcMenu.classList.add("hidden");
+      });
+    }
 
     return document.querySelector("[data-page-body]");
   }

@@ -28,11 +28,13 @@
 
   // Starts the Work Orders page and loads backend data.
   function init() {
-    const actions = templateFragment("work-order-actions-template");
+    const actions = window.UI.isManager() ? templateFragment("work-order-actions-template") : null;
     WorkOrdersPage.body = renderShell({ title: "Work Orders", group: "Workflow", crumb: "Work Orders", actions });
     const newWorkOrder = document.getElementById("new-wo");
-    newWorkOrder.querySelector("[data-new-wo-icon]").outerHTML = I.plus(14);
-    newWorkOrder.addEventListener("click", window.WorkOrderForms.openWoForm);
+    if (newWorkOrder) {
+      newWorkOrder.querySelector("[data-new-wo-icon]").outerHTML = I.plus(14);
+      newWorkOrder.addEventListener("click", window.WorkOrderForms.openWoForm);
+    }
     loadWorkOrders();
   }
 

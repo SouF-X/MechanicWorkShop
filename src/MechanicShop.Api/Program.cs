@@ -53,7 +53,8 @@ app.UseCoreMiddlewares(builder.Configuration);
 
 app.MapControllers();
 
-app.MapPrometheusScrapingEndpoint();
+app.MapPrometheusScrapingEndpoint()
+    .RequireAuthorization("ManagerOnly");
 
 app.MapHub<WorkOrderHub>("/hubs/workorders");
 

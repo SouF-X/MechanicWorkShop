@@ -20,7 +20,11 @@
     body.querySelector("[data-job-count]").textContent = state.board.jobs.length + " job" + (state.board.jobs.length === 1 ? "" : "s") + " on board";
     body.querySelector("[data-filter-icon]").innerHTML = I.filter(14);
 
-    renderFilter(body, state.employees, state.techFilter);
+    if (window.UI.isManager()) {
+      renderFilter(body, state.employees, state.techFilter);
+    } else {
+      body.querySelector("#tech-filter")?.closest("div")?.remove();
+    }
     renderGrid(body, state.board);
     body.querySelector("[data-legend-chips]").replaceChildren(stateChip("Scheduled"), stateChip("InProgress"), stateChip("Completed"), stateChip("Cancelled"));
     bindEvents();
@@ -99,7 +103,7 @@
     document.querySelector(".calendar-jump")?.addEventListener("click", () => datePicker.showPicker?.());
     datePicker.addEventListener("change", (e) => window.SchedulePage.setDate(e.target.value));
 
-    document.getElementById("tech-filter").addEventListener("change", (e) => window.SchedulePage.setTechFilter(e.target.value));
+    document.getElementById("tech-filter")?.addEventListener("change", (e) => window.SchedulePage.setTechFilter(e.target.value));
   }
 
   window.ScheduleRender = { render };

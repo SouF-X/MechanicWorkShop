@@ -22,8 +22,13 @@ public class GetDailyScheduleQueryHandler(
 
     public async Task<Result<ScheduleDto>> Handle(GetDailyScheduleQuery query, CancellationToken ct)
     {
-        var localStart = query.ScheduleDate.ToDateTime(TimeOnly.MinValue);
-        var localEnd = localStart.AddDays(1);
+        var localStart = query.ScheduleDate.ToDateTime(query.OpeningTime);
+        var localEnd = query.ScheduleDate.ToDateTime(query.ClosingTime);
+
+        if (localEnd <= localStart)
+        {
+            localEnd = localEnd.AddDays(1);
+        }
 
         var utcStart = TimeZoneInfo.ConvertTimeToUtc(localStart, query.TimeZone);
         var utcEnd = TimeZoneInfo.ConvertTimeToUtc(localEnd, query.TimeZone);

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.RateLimiting;
 
 namespace MechanicShop.Api.Controllers;
 
-[Authorize]
+[Authorize(Policy = "ManagerOnly")]
 [Route("api/v{version:apiVersion}/dashboard")]
 [ApiVersion("1.0")]
 [EnableRateLimiting("SlidingWindow")]

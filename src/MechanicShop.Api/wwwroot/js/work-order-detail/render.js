@@ -44,16 +44,21 @@
     body.querySelector("[data-modify-icon]").innerHTML = I.pencil(12);
 
     const modifyButton = body.querySelector("[data-modify-tasks]");
-    const canModifyTasks = workOrder.state === "Scheduled";
-    modifyButton.disabled = !canModifyTasks;
-    modifyButton.title = canModifyTasks
-      ? "Modify repair tasks"
-      : "Repair tasks can only be modified while the work order is scheduled.";
+    const canModifyTasks = window.UI.isManager() && workOrder.state === "Scheduled";
+    if (!window.UI.isManager()) {
+      modifyButton.remove();
+      body.querySelector(".totals-row")?.remove();
+    } else {
+      modifyButton.disabled = !canModifyTasks;
+      modifyButton.title = canModifyTasks
+        ? "Modify repair tasks"
+        : "Repair tasks can only be modified while the work order is scheduled.";
+      body.querySelector("[data-labor-total]").textContent = "$" + labor.toFixed(2);
+      body.querySelector("[data-parts-total]").textContent = "$" + parts.toFixed(2);
+      body.querySelector("[data-grand-total]").textContent = "$" + (labor + parts).toFixed(2);
+    }
 
     body.querySelector("[data-task-list]").replaceChildren(...tasks.map(renderTaskRow));
-    body.querySelector("[data-labor-total]").textContent = "$" + labor.toFixed(2);
-    body.querySelector("[data-parts-total]").textContent = "$" + parts.toFixed(2);
-    body.querySelector("[data-grand-total]").textContent = "$" + (labor + parts).toFixed(2);
   }
 
   // Builds one task row.
@@ -61,16 +66,22 @@
     const row = cloneTemplate("work-order-task-row-template");
     row.querySelector("[data-task-icon]").innerHTML = I.wrench(14);
     row.querySelector("[data-task-title]").textContent = task.def.name;
-    const total = task.def.laborCost + task.def.parts.reduce((sum, part) => sum + part.qty * part.price, 0);
-    row.querySelector("[data-task-price]").textContent = "$" + total.toFixed(2);
+    const priceEl = row.querySelector("[data-task-price]");
     const partsText = task.def.parts.length > 0 ? " · Parts: " + task.def.parts.map((part) => part.qty + "× " + part.name).join(", ") : "";
-    row.querySelector("[data-task-meta]").textContent = "~" + task.def.durationMin + " min · Labor $" + task.def.laborCost.toFixed(2) + partsText;
+    if (window.UI.isManager()) {
+      const total = task.def.laborCost + task.def.parts.reduce((sum, part) => sum + part.qty * part.price, 0);
+      priceEl.textContent = "$" + total.toFixed(2);
+      row.querySelector("[data-task-meta]").textContent = "~" + task.def.durationMin + " min · Labor $" + task.def.laborCost.toFixed(2) + partsText;
+    } else {
+      priceEl.remove();
+      row.querySelector("[data-task-meta]").textContent = "~" + task.def.durationMin + " min" + partsText;
+    }
     return row;
   }
 
   // Renders invoice summary card if invoice exists.
   function renderInvoice(body, invoice) {
-    if (!invoice) return;
+    if (!invoice || !window.UI.isManager()) return;
 
     const invoiceNode = cloneTemplate("work-order-invoice-template");
     invoiceNode.querySelector("[data-invoice-title]").textContent = "Invoice " + invoice.number;
@@ -105,7 +116,12 @@
     startButton.title = startsTooEarly ? "This work order can be started 15 minutes before its scheduled time." : "";
 
     document.getElementById("complete").disabled = workOrder.state !== "InProgress";
-    document.getElementById("cancel-wo").disabled = workOrder.state === "Completed" || workOrder.state === "Cancelled";
+    const cancelButton = document.getElementById("cancel-wo");
+    if (!window.UI.isManager()) {
+      cancelButton.remove();
+    } else {
+      cancelButton.disabled = workOrder.state === "Completed" || workOrder.state === "Cancelled";
+    }
   }
 
   // Binds backend-supported actions.
@@ -131,7 +147,9 @@
     document.getElementById("start")?.addEventListener("click", () => updateState(workOrder, 1, "Work order started"));
     document.getElementById("complete")?.addEventListener("click", () => updateState(workOrder, 2, "Work order completed"));
     document.getElementById("cancel-wo")?.addEventListener("click", () => updateState(workOrder, 3, "Work order cancelled"));
-    document.querySelector("[data-modify-tasks]")?.addEventListener("click", () => openRepairTaskModal(workOrder, tasks));
+    if (window.UI.isManager()) {
+      document.querySelector("[data-modify-tasks]")?.addEventListener("click", () => openRepairTaskModal(workOrder, tasks));
+    }
   }
 
   // Opens a simple repair-task selector and replaces the work order task list.
