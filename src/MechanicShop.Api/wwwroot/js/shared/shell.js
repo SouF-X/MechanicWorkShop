@@ -16,12 +16,12 @@
   // Builds the logged-in app layout: sidebar, top bar, page action area, body host.
   function renderShell({ title, group, crumb, actions = null }) {
     const session = window.UI.getSession();
-    if (!session) { location.href = "../index.html"; return; }
+    if (!session) { window.UI.goTo("index.html"); return; }
 
     const managerOnlyPages = ["dashboard.html", "customers.html", "repair-tasks.html", "invoices.html", "technicians.html"];
     const currentPage = location.pathname.split("/").pop();
     if (!window.UI.isManager(session) && managerOnlyPages.includes(currentPage)) {
-      location.href = "schedule.html";
+      window.UI.goTo("html/schedule.html");
       return;
     }
 
@@ -68,7 +68,7 @@
     window.UI.refreshSessionFromBackend();
 
     // Wire up interactions
-    document.querySelector("[data-signout]").addEventListener("click", () => { window.UI.signOut(); location.href = "../index.html"; });
+    document.querySelector("[data-signout]").addEventListener("click", () => { window.UI.signOut(); window.UI.goTo("index.html"); });
     const liveSidebar = document.querySelector("[data-sidebar]");
     const backdrop = document.querySelector("[data-sidebar-backdrop]");
     const closeSidebar = () => { liveSidebar.classList.remove("open"); backdrop.classList.add("hidden"); };

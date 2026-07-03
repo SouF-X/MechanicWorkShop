@@ -64,6 +64,18 @@ public sealed class FirstManagerBootstrapper(
             }
         }
 
+        if (!await userManager.CheckPasswordAsync(manager, _settings.Password))
+        {
+            var resetToken = await userManager.GeneratePasswordResetTokenAsync(manager);
+            var resetResult = await userManager.ResetPasswordAsync(manager, resetToken, _settings.Password);
+
+            if (!resetResult.Succeeded)
+            {
+                return FirstManagerBootstrapperErrors.UserCreationFailed(
+                    resetResult.Errors.First().Description);
+            }
+        }
+
         if (!await userManager.IsInRoleAsync(manager, roleName))
         {
             var roleResult =

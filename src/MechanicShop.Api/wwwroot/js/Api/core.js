@@ -1,6 +1,7 @@
 (function () {
-  // Empty API base because the frontend is served by the same ASP.NET Core app.
-  const API_BASE = "";
+  // Build API URLs from the deployed app root so the site works at `/`, `/index.html`,
+  // or under a hosted sub-path such as `/demo/`.
+  const toApiUrl = (path) => window.UI?.toAppUrl ? window.UI.toAppUrl(path) : path;
 
   function buildHeaders(options = {}) {
     const token = localStorage.getItem("accessToken");
@@ -47,7 +48,7 @@
   }
 
   async function fetchWithRefresh(path, options = {}, { headersAlreadyBuilt = false } = {}) {
-    const res = await fetch(API_BASE + path, {
+    const res = await fetch(toApiUrl(path), {
       ...options,
       headers: headersAlreadyBuilt ? options.headers : buildHeaders(options),
     });
@@ -60,12 +61,12 @@
     if (!refreshed) {
       window.UI?.signOut?.();
       if (location.pathname.includes("/html/")) {
-        location.href = "../index.html";
+        window.UI?.goTo ? window.UI.goTo("index.html") : (location.href = "../index.html");
       }
       return res;
     }
 
-    return fetch(API_BASE + path, {
+    return fetch(toApiUrl(path), {
       ...options,
       _retry: true,
       headers: headersAlreadyBuilt ? rebuildAuthorizationHeader(options.headers) : buildHeaders(options),
@@ -95,7 +96,7 @@
     }
 
     if (!refreshPromise) {
-      refreshPromise = fetch(API_BASE + "/identity/token/refresh-token", {
+      refreshPromise = fetch(toApiUrl("/identity/token/refresh-token"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ refreshToken, expiredAccessToken }),

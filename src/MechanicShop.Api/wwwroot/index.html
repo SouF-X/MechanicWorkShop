@@ -4,6 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MechanicOS — Sign in</title>
+    <script>
+      // Some hosts serve the app from a sub-path like /demo. If the URL has no
+      // trailing slash, relative CSS/JS resolve from the domain root and the page
+      // looks blank. Normalize early before assets load.
+      (() => {
+        const last = location.pathname.split("/").pop();
+        if (last && !last.includes(".") && !location.pathname.endsWith("/")) {
+          location.replace(`${location.pathname}/${location.search}${location.hash}`);
+        }
+      })();
+    </script>
     <meta
       name="description"
       content="Workshop operations command center for North Bay Garage."
@@ -76,8 +87,9 @@
             ><span class="label">Welcome back</span>
           </div>
           <h1 class="login__title">Sign in</h1>
-          <p class="login__hint">
-            Sign in with your employee account.
+          <p class="login__hint login__hint--inline">
+            <span>Sign in with your employee account.</span>
+            <span class="login__demo-note">Demo: <strong>manager@localhost</strong> · <strong>manager123</strong></span>
           </p>
 
           <form id="login-form" class="login__form">
@@ -88,6 +100,7 @@
                 class="input login__input"
                 type="email"
                 autocomplete="username"
+                value="manager@localhost"
               />
             </div>
             <div class="field">
@@ -95,12 +108,23 @@
                 <label class="field-label">Password</label>
                 <a class="login__forgot" href="#">Forgot?</a>
               </div>
-              <input
-                id="password"
-                class="input login__input"
-                type="password"
-                autocomplete="current-password"
-              />
+              <div class="login__password-control">
+                <input
+                  id="password"
+                  class="input login__input"
+                  type="password"
+                  autocomplete="current-password"
+                  value="manager123"
+                />
+                <button
+                  class="login__password-toggle"
+                  type="button"
+                  id="password-toggle"
+                  aria-label="Show password"
+                >
+                  <span id="password-toggle-icon"></span>
+                </button>
+              </div>
             </div>
             <label class="login__remember">
               <input id="remember" type="checkbox" checked />

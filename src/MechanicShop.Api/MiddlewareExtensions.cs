@@ -11,6 +11,7 @@ public static class MiddlewareExtensions
     {
         app.UseExceptionHandler();
         app.UseStatusCodePages();
+        app.UseForwardedHeaders();
         app.UseHttpsRedirection();
 
 

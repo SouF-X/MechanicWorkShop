@@ -115,7 +115,7 @@
   function logoutDeactivatedSession() {
     window.UI.signOut();
     toast("Your account was deactivated. Please sign in with an active manager account.");
-    setTimeout(() => { location.href = "../index.html"; }, 700);
+    setTimeout(() => { window.UI.goTo("index.html"); }, 700);
   }
 
   // Uses backend deactivate as the safe remove behavior because API has no hard delete.

@@ -4,6 +4,20 @@
 
   let sharedTemplatesLoaded = false;
 
+  function detectAppRoot() {
+    const scripts = Array.from(document.scripts || []);
+    const src = scripts
+      .map(script => script.getAttribute("src") ? new URL(script.getAttribute("src"), location.href).pathname : "")
+      .find(path => /\/js\/shared\/templates\.js$/i.test(path));
+
+    if (!src) return "";
+    const root = src.replace(/\/js\/shared\/templates\.js$/i, "").replace(/\/+$/, "");
+    return root === "/" ? "" : root;
+  }
+
+  const appRoot = detectAppRoot();
+  const rooted = (path) => `${appRoot}/${path.replace(/^\//, "")}`;
+
   // Loads shared HTML templates once so every page can reuse the same shell/icons.
   function ensureSharedTemplates() {
     if (document.getElementById("app-shell-template")) {
@@ -13,8 +27,8 @@
     if (sharedTemplatesLoaded) return false;
 
     const partialPaths = location.pathname.includes("/html/")
-      ? ["partials/shared-templates.html", "./partials/shared-templates.html", "/html/partials/shared-templates.html"]
-      : ["html/partials/shared-templates.html", "./html/partials/shared-templates.html", "/html/partials/shared-templates.html"];
+      ? ["partials/shared-templates.html", "./partials/shared-templates.html", rooted("html/partials/shared-templates.html")]
+      : ["html/partials/shared-templates.html", "./html/partials/shared-templates.html", rooted("html/partials/shared-templates.html")];
 
     for (const partialPath of partialPaths) {
       try {

@@ -3,6 +3,46 @@
   window.UI = window.UI || {};
 
   const SESSION_KEY = "mech.session.v1";
+  const APP_ROOT = detectAppRoot();
+
+  function detectAppRoot() {
+    const scripts = Array.from(document.scripts || []);
+    const src = scripts
+      .map(script => script.getAttribute("src") ? new URL(script.getAttribute("src"), location.href).pathname : "")
+      .find(path => /\/js\/shared\/session\.js$/i.test(path));
+
+    if (src) {
+      return normalizeRoot(src.replace(/\/js\/shared\/session\.js$/i, ""));
+    }
+
+    const path = location.pathname;
+    const htmlIndex = path.toLowerCase().indexOf("/html/");
+    if (htmlIndex >= 0) return normalizeRoot(path.slice(0, htmlIndex));
+    if (/\/index\.html$/i.test(path)) return normalizeRoot(path.replace(/\/index\.html$/i, ""));
+    return normalizeRoot(path.endsWith("/") ? path.slice(0, -1) : "");
+  }
+
+  function normalizeRoot(root) {
+    if (!root || root === "/") return "";
+    return root.replace(/\/+$/, "");
+  }
+
+  function toAppUrl(path = "") {
+    if (/^[a-z][a-z0-9+.-]*:/i.test(path)) return path;
+
+    const root = APP_ROOT;
+    if (path.startsWith("/")) {
+      if (root && (path === root || path.startsWith(root + "/"))) return path;
+      return root + path;
+    }
+
+    const cleanPath = path.replace(/^\.\//, "").replace(/^(\.\.\/)+/, "");
+    return `${root}/${cleanPath}`;
+  }
+
+  function goTo(path) {
+    location.href = toAppUrl(path);
+  }
 
   // Reads the temporary local browser session.
   function getSession() {
@@ -73,7 +113,7 @@
     const token = localStorage.getItem("accessToken");
     if (!token) return;
 
-    fetch("/identity/current-user/claims", {
+    fetch(toAppUrl("/identity/current-user/claims"), {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(response => response.ok ? response.json() : null)
@@ -99,6 +139,9 @@
     normalizeRole,
     isManager,
     isLabor,
+    appRoot: APP_ROOT,
+    toAppUrl,
+    goTo,
     defaultHome,
     applySessionToDom,
     refreshSessionFromBackend,

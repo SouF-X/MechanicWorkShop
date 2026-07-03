@@ -14,3 +14,7 @@ appsettings.Development.json
 
 *.db
 *.log
+
+# Publish artifacts and local log archives
+.publish/
+*.zip

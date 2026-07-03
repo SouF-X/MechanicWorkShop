@@ -17,7 +17,7 @@
   // If a local session exists, skip the login screen.
   const existingSession = window.UI.getSession();
   if (existingSession) {
-    location.href = window.UI.defaultHome(existingSession);
+    window.UI.goTo(window.UI.defaultHome(existingSession));
     return;
   }
 
@@ -26,12 +26,30 @@
   const errEl = document.getElementById("login-error");
   const btn = document.getElementById("login-submit");
   const lbl = document.getElementById("login-label");
+  const emailInput = document.getElementById("email");
+  const passwordInput = document.getElementById("password");
+  const passwordToggle = document.getElementById("password-toggle");
+  const passwordToggleIcon = document.getElementById("password-toggle-icon");
+
+  if (passwordToggle && passwordToggleIcon && window.ICONS) {
+    passwordToggleIcon.innerHTML = window.ICONS.eye(16);
+    passwordToggle.addEventListener("click", () => {
+      const isHidden = passwordInput.type === "password";
+      passwordInput.type = isHidden ? "text" : "password";
+      passwordToggle.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+      passwordToggleIcon.innerHTML = isHidden ? window.ICONS.eyeOff(16) : window.ICONS.eye(16);
+    });
+  }
+
+  // Public portfolio demo credentials. They match FirstManager in development/demo config.
+  if (!emailInput.value) emailInput.value = "manager@localhost";
+  if (!passwordInput.value) passwordInput.value = "manager123";
 
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     errEl.classList.add("hidden");
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
     if (!email || !password) return showError("Enter your email and password.");
     if (password.length < 3) return showError("Incorrect email or password.");
 
@@ -49,7 +67,7 @@
       })
       .then((profile) => {
         const session = window.UI.signIn(profile);
-        location.href = window.UI.defaultHome(session);
+        window.UI.goTo(window.UI.defaultHome(session));
       })
       .catch((err) => {
         showError(err.message);
